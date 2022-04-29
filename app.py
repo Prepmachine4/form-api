@@ -1,20 +1,6 @@
-from flask import Flask
-from flask_mongoengine import MongoEngine
+from app import create_app
 
-app = Flask(__name__)
-# 数据库配置
-app.config['MONGODB_SETTINGS'] = {
-    'db': 'form',
-    'host': '82.157.141.92',
-    'port': 27017
-}
-db = MongoEngine(app)
-
-
-@app.route('/')
-def hello_world():  # put application's code here
-    return 'Hello World!'
-
+app = create_app()
 
 if __name__ == '__main__':
     app.run()
