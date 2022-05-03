@@ -1,6 +1,6 @@
 from flask import Flask
 from app.models import db
-from app.createForm import *
+from app.formOperation import *
 
 def create_app():
     # 创建app
@@ -16,6 +16,6 @@ def create_app():
     db.init_app(app)
 
     # 注册蓝图
-    app.register_blueprint(bp1, url_prefix='/')
+    app.register_blueprint(bp_form, url_prefix='/api/form')
 
     return app
