@@ -1,11 +1,13 @@
 from flask import Flask
 from app.models import db
 from app.formOperation import *
+from flask_cors import CORS
+
 
 def create_app():
     # 创建app
     app = Flask(__name__)
-
+    CORS(app)
     # 数据库配置
     app.config['MONGODB_SETTINGS'] = {
         'db': 'form_system',

@@ -4,6 +4,7 @@ from app.models import *
 
 bp_form = Blueprint("form", __name__)  # 创建蓝图，该蓝图管理定义表单的相关路由
 
+
 @bp_form.route('/<user_id>', methods=['POST'])
 def saveForm(user_id):  # put application's code here
     form_info = request.get_data()
@@ -26,7 +27,8 @@ def saveForm(user_id):  # put application's code here
                      end_time=end_time)
     user_form.save()
 
-    return json.jsonify({"_id":str(user_form._id)})
+    return json.jsonify({"_id": str(user_form._id)})
+
 
 @bp_form.route('/<user_id>/<form_id>', methods=['DELETE'])
 def deleteForm(user_id, form_id):
