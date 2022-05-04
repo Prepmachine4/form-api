@@ -1,3 +1,4 @@
+import flask
 from flask import Flask
 from app.models import db
 from app.formOperation import *
@@ -6,8 +7,14 @@ from flask_cors import CORS
 
 def create_app():
     # 创建app
-    app = Flask(__name__)
+    app = Flask(__name__,static_folder="../static/")
     CORS(app)
+
+    # 静态文件夹的目录 你们不要管
+    @app.route('/')
+    def get_index():
+        return flask.redirect("/static/index.html")
+
     # 数据库配置
     app.config['MONGODB_SETTINGS'] = {
         'db': 'form_system',
