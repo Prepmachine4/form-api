@@ -73,7 +73,6 @@ def getUserForms(user_id):
 def saveFormSetting(form_id):
     form_info = request.get_data()
     form_info = json.loads(form_info.decode("UTF-8"))
-
     end_time = form_info.get("end_time")
 
     form=Form.objects(_id=form_id).first()
@@ -82,8 +81,19 @@ def saveFormSetting(form_id):
     return json.jsonify({})
 
 @bp_form.route('/setting/<form_id>', methods=['GET'])  # 获取表单设置
-def getFormSetting(form_id):
+def getFormSetting(form_id):        
     form=Form.objects(_id=form_id).first()
     end_time = form.end_time
 
     return json.jsonify({"end_time":end_time})
+
+@bp_form.route('/setting/<form_id>', methods=['PUT'])  # 修改表单设置
+def updateFormSetting(form_id): 
+    form_info = request.get_data()
+    form_info = json.loads(form_info.decode("UTF-8"))
+    end_time = form_info.get("end_time")
+
+    form=Form.objects(_id=form_id).first()
+    form.update(end_time=end_time)
+
+    return json.jsonify({})
