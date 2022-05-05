@@ -3,6 +3,7 @@ from flask import Flask
 from app.models import db
 from app.formOperation import *
 from flask_cors import CORS
+from app.login import *
 
 
 def create_app():
@@ -26,5 +27,6 @@ def create_app():
 
     # 注册蓝图
     app.register_blueprint(bp_form, url_prefix='/api/form')
+    app.register_blueprint(bp_user, url_prefix='/api/user')
 
     return app
