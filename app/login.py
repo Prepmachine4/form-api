@@ -5,7 +5,7 @@ from app.models import User
 bp_user = Blueprint("user", __name__)  # 创建蓝图，该蓝图管理用户相关路由
 
 
-@bp_user.route('/login', methods=['GET'])
+@bp_user.route('/login', methods=['POST'])
 def login():
 
     # 通过邮箱和密码登录
