@@ -15,7 +15,7 @@ def saveForm(user_id):
     category = form_info.get("category")
     create_time = form_info.get("create_time")
 
-    user_form = form(_id=ObjectId(),
+    user_form = Form(_id=ObjectId(),
                      user_id=user_id,
                      category=category,
                      name=name,
@@ -28,12 +28,12 @@ def saveForm(user_id):
 
 @bp_form.route('/<form_id>', methods=['DELETE'])  #删除某一表单
 def deleteForm(form_id):
-    form.objects(_id=form_id).delete()
+    Form.objects(_id=form_id).delete()
     return json.jsonify({})
 
 @bp_form.route('/<form_id>', methods=['GET'])   #获取某一表单
 def getForm(form_id):
-    form_data = form.objects(_id=form_id).first()
+    form_data = Form.objects(_id=form_id).first()
 
     _id = str(form_data._id)
     user_id = str(form_data.user_id)
@@ -51,7 +51,7 @@ def getForm(form_id):
 
 @bp_form.route('/forms/<user_id>', methods=['GET'])   #获取用户的所有表单
 def getUserForms(user_id):
-    form_data_list = form.objects(user_id=user_id)
+    form_data_list = Form.objects(user_id=user_id)
     list_data = []
 
     for form_data in form_data_list:
@@ -68,3 +68,22 @@ def getUserForms(user_id):
                          "create_time":create_time, "end_time":end_time}]
 
     return json.jsonify(list_data)
+
+@bp_form.route('/setting/<form_id>', methods=['POST'])  # 保存表单设置
+def saveFormSetting(form_id):
+    form_info = request.get_data()
+    form_info = json.loads(form_info.decode("UTF-8"))
+
+    end_time = form_info.get("end_time")
+
+    form=Form.objects(_id=form_id).first()
+    form.update(end_time=end_time)
+
+    return json.jsonify({})
+
+@bp_form.route('/setting/<form_id>', methods=['GET'])  # 获取表单设置
+def getFormSetting(form_id):
+    form=Form.objects(_id=form_id).first()
+    end_time = form.end_time
+
+    return json.jsonify({"end_time":end_time})

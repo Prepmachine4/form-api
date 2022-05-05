@@ -11,7 +11,7 @@ class User(db.Document):
     role = db.StringField(required=True)  # 用户角色：个人或企业
 
 # 对应数据库中的form集合
-class form(db.Document):
+class Form(db.Document):
     _id = db.ObjectIdField(primary_key=True)    # 表单id，mongdb自动生成
     user_id = db.ObjectIdField(required=True)    # 设置表单的用户id
     category = db.StringField(required=True)   # 表单类型：问卷型或业务型
@@ -23,7 +23,7 @@ class form(db.Document):
     url = db.StringField() # 表单发布后对应的url
 
 # 对应数据库中的form_data集合
-class form_data(db.Document):
+class FormData(db.Document):
     _id = db.ObjectIdField(primary_key=True)  # 表单结果id，mongdb自动生成
     form_id = db.ObjectIdField(required=True)  # 所填写的表单id
     user_id = db.ObjectIdField(required=True)  # 填写该表单的用户id
