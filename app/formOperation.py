@@ -106,6 +106,12 @@ def updateFormSetting(form_id):
     return json.jsonify({})
 
 
+@bp_form.route('/struct/<form_id>', methods=['GET'])  # 获取表单结构
+def getFormStruct(form_id):
+    form_data = Form.objects(_id=form_id).first()
+    return json.jsonify(form_data.struct)
+
+
 @bp_data.route('/<form_id>', methods=['POST'])  # 填写表单
 def fillInForm(form_id):
     form_info = request.get_data()

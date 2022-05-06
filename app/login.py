@@ -16,13 +16,12 @@ def login():
     user = User.objects(email=form_info.get("email"),
                         password=form_info.get("password")).first()
     if user:
-        return jsonify({"user_info": {"_id": str(user.id),
+        return jsonify({"user_info": {"_id": str(user._id),
                                       "email": user.email,
                                       "role": user.role},
                         "token": "111"})
     else:
-        return jsonify({"status": 401,
-                        "reason": "Email or Password Error"})
+        return jsonify({"message":"Email or password error!"}), 400
 
 
 @bp_user.route('/register', methods=['POST'])
@@ -34,12 +33,11 @@ def register():
 
     user = User.objects(email=form_info.get("email")).first()
     if user:
-        return jsonify({"status": 400,
-                        "reason": "Email already exists"})
+        return jsonify({"message":"The user already exists!"}), 400
     else:
         user = User(_id=ObjectId(),
                     email=form_info.get("email"),
                     password=form_info.get("password"),
                     role=form_info.get("type"))
         user.save()
-        return jsonify({"status": 200})
+        return jsonify({})
