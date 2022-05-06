@@ -28,5 +28,6 @@ def create_app():
     # 注册蓝图
     app.register_blueprint(bp_form, url_prefix='/api/form')
     app.register_blueprint(bp_user, url_prefix='/api/user')
+    app.register_blueprint(bp_data, url_prefix='/api/data')
 
     return app
