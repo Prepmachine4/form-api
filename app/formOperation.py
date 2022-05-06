@@ -141,11 +141,11 @@ def getAllFormInfo(form_id):
         result = form_data.result
         status = form_data.status
 
-        email = user.email
-        role = user.role
-
-        list_data += [{"_id": str(form_data._id), "form_id": str(form_id), "create_time": create_time, "result": result,
+        list_data += [{"_id": str(form_data._id),
+                       "form_id": str(form_id),
+                       "create_time": create_time,
+                       "result": result,
                        "status": status,
-                       "user_id": str(user_id), "email": email, "role": role}]
+                       "user": user}]
 
     return json.jsonify(list_data)
