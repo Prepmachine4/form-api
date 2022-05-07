@@ -32,7 +32,11 @@ def saveForm(user_id):
 
 @bp_form.route('/<form_id>', methods=['DELETE'])  # 删除某一表单
 def deleteForm(form_id):
+    #删除表单结构
     Form.objects(_id=form_id).delete()
+
+    #删除填写的数据
+    FormData.objects(form_id=form_id).delete()
     return json.jsonify({})
 
 
@@ -89,7 +93,8 @@ def getUserForms(user_id):
 def saveFormSetting(form_id):
     form_info = request.get_data()
     form_info = json.loads(form_info.decode("UTF-8"))
-    end_time = form_info.get("end_time")
+    setting = form_info.get("setting")
+    end_time = setting.get("end_time")
 
     form = Form.objects(_id=form_id).first()
     form.update(end_time=end_time)
@@ -102,14 +107,15 @@ def getFormSetting(form_id):
     form = Form.objects(_id=form_id).first()
     end_time = form.end_time
 
-    return json.jsonify({"end_time": end_time})
+    return json.jsonify({"setting":{"end_time": end_time}})
 
 
 @bp_form.route('/setting/<form_id>', methods=['PUT'])  # 修改表单设置
 def updateFormSetting(form_id):
     form_info = request.get_data()
     form_info = json.loads(form_info.decode("UTF-8"))
-    end_time = form_info.get("end_time")
+    setting = form_info.get("setting")
+    end_time = setting.get("end_time")
 
     form = Form.objects(_id=form_id).first()
     form.update(end_time=end_time)
