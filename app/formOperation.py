@@ -23,6 +23,7 @@ def saveForm(user_id):
                      name=name,
                      struct=struct,
                      create_time=create_time,
+                     end_time="",
                      is_template=is_template)
     user_form.save()
 
@@ -48,9 +49,14 @@ def getForm(form_id):
     create_time = form_data.create_time
     end_time = form_data.end_time
 
-    return json.jsonify({"_id": _id, "user_id": user_id, "is_template": is_template,
-                         "name": name, "struct": struct, "category": category,
-                         "create_time": create_time, "end_time": end_time})
+    if end_time == "":
+        return json.jsonify({"_id": _id, "user_id": user_id, "is_template": is_template,
+                             "name": name, "struct": struct, "category": category,
+                             "create_time": create_time})
+    else:
+        return json.jsonify({"_id": _id, "user_id": user_id, "is_template": is_template,
+                             "name": name, "struct": struct, "category": category,
+                             "create_time": create_time, "setting":{"end_time": end_time}})
 
 
 @bp_form.route('/forms/<user_id>', methods=['GET'])  # 获取用户的所有表单
@@ -67,9 +73,14 @@ def getUserForms(user_id):
         create_time = form_data.create_time
         end_time = form_data.end_time
 
-        list_data += [{"_id": _id, "user_id": user_id, "name": name,
-                       "is_template": is_template, "struct": struct, "category": category,
-                       "create_time": create_time, "end_time": end_time}]
+        if end_time == "":
+            list_data += [{"_id": _id, "user_id": user_id, "name": name,
+                           "is_template": is_template, "struct": struct, "category": category,
+                           "create_time": create_time}]
+        else:
+            list_data += [{"_id": _id, "user_id": user_id, "name": name,
+                           "is_template": is_template, "struct": struct, "category": category,
+                           "create_time": create_time, "setting":{"end_time": end_time}}]
 
     return json.jsonify(list_data)
 
@@ -91,7 +102,7 @@ def getFormSetting(form_id):
     form = Form.objects(_id=form_id).first()
     end_time = form.end_time
 
-    return json.jsonify({"end_time": end_time})
+    return json.jsonify({"end_time":end_time})
 
 
 @bp_form.route('/setting/<form_id>', methods=['PUT'])  # 修改表单设置
