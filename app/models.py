@@ -3,7 +3,7 @@ from flask_mongoengine import MongoEngine
 db = MongoEngine()
 
 
-# 对应数据库中的user集合
+# 对应数据库中的 user 集合
 class User(db.Document):
     _id = db.ObjectIdField(primary_key=True)  # 用户id，mongodb自动生成
     email = db.StringField(required=True)  # 用户邮箱
@@ -11,7 +11,7 @@ class User(db.Document):
     role = db.StringField(required=True)  # 用户角色：个人或企业
 
 
-# 对应数据库中的form集合
+# 对应数据库中的 form 集合
 class Form(db.Document):
     _id = db.ObjectIdField(primary_key=True)  # 表单id，mongodb自动生成
     user_id = db.ObjectIdField(required=True)  # 设置表单的用户id
@@ -24,11 +24,10 @@ class Form(db.Document):
     url = db.StringField()  # 表单发布后对应的url
 
 
-# 对应数据库中的formData集合
+# 对应数据库中的 form_data 集合
 class FormData(db.Document):
     _id = db.ObjectIdField(primary_key=True)  # 表单结果id，mongodb自动生成
     create_time = db.StringField(required=True)  # 表单的发布时间
     form_id = db.ObjectIdField(required=True)  # 所填写的表单id
     user_id = db.ObjectIdField(required=True)  # 填写该表单的用户id
-    result = db.StringField(required=True)  # 表单结果
-    status = db.IntField(required=True)  # 表单状态
+    data = db.StringField(required=True)  # 表单数据
