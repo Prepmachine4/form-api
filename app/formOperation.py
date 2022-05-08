@@ -32,10 +32,10 @@ def saveForm(user_id):
 
 @bp_form.route('/<form_id>', methods=['DELETE'])  # 删除某一表单
 def deleteForm(form_id):
-    #删除表单结构
+    # 删除表单结构
     Form.objects(_id=form_id).delete()
 
-    #删除填写的数据
+    # 删除填写的数据
     FormData.objects(form_id=form_id).delete()
     return json.jsonify({})
 
@@ -107,7 +107,7 @@ def getFormSetting(form_id):
     form = Form.objects(_id=form_id).first()
     end_time = form.end_time
 
-    return json.jsonify({"setting":{"end_time": end_time}})
+    return json.jsonify({"setting": {"end_time": end_time}})
 
 
 @bp_form.route('/setting/<form_id>', methods=['PUT'])  # 修改表单设置
@@ -185,9 +185,10 @@ def getUserForms(user_id):
         form_id = form_data.form_id  # type->ObjectId
         form = Form.objects(_id=str(form_id)).first()
 
+        # 查询 form_data 集合
         create_time = form_data.create_time
         data = form_data.data
-
+        # 查询 form 集合
         form_id = str(form._id)
         is_template = form.is_template
         name = form.name
@@ -195,6 +196,13 @@ def getUserForms(user_id):
         category = form.category
         form_create_time = form.create_time
         end_time = form.end_time
+        # 表单创建人
+        form_user_id = str(form.user_id)
+        # print(form_user_id)
+        user = User.objects(_id=form_user_id).first()
+        # 查询 user 集合
+        email = user.email
+        role = user.role
 
         list_data += [{"_id": str(form_data._id),
                        "create_time": create_time,
@@ -205,7 +213,11 @@ def getUserForms(user_id):
                                 "struct": struct,
                                 "category": category,
                                 "create_time": form_create_time,
-                                "setting":{"end_time": end_time}
+                                "setting": {"end_time": end_time},
+                                "user": {"_id": form_user_id,
+                                         "email": email,
+                                         "role": role
+                                         }
                                 }
                        }]
 
