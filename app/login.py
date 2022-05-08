@@ -46,7 +46,7 @@ def register():
 @bp_user.route('/profile', methods=['PUT'])
 def profile():
 
-    # 修改密码，传入email、nickname?、password
+    # 修改密码，传入email、nickname、password
     form_info = request.get_data()
     form_info = json.loads(form_info.decode("UTF-8"))
 

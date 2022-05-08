@@ -9,7 +9,7 @@ class User(db.Document):
     email = db.StringField(required=True)  # 用户邮箱
     password = db.StringField(required=True)  # 用户密码
     role = db.StringField(required=True)  # 用户类型：个人或企业
-    nickname = db.StringField(default="")
+    nickname = db.StringField(default="")  # 用户昵称
 
 
 # 对应数据库中的 form 集合
