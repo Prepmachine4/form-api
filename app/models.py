@@ -8,7 +8,8 @@ class User(db.Document):
     _id = db.ObjectIdField(primary_key=True)  # 用户id，mongodb自动生成
     email = db.StringField(required=True)  # 用户邮箱
     password = db.StringField(required=True)  # 用户密码
-    role = db.StringField(required=True)  # 用户角色：个人或企业
+    role = db.StringField(required=True)  # 用户类型：个人或企业
+    nickname = db.StringField(default="")
 
 
 # 对应数据库中的 form 集合

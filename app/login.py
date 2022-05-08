@@ -41,3 +41,19 @@ def register():
                     role=form_info.get("type"))
         user.save()
         return jsonify({})
+
+
+@bp_user.route('/profile', methods=['PUT'])
+def profile():
+
+    # 修改密码，传入email、nickname?、password
+    form_info = request.get_data()
+    form_info = json.loads(form_info.decode("UTF-8"))
+
+    user = User.objects(email=form_info.get("email")).first()
+    if user:
+        user.update(nickname=form_info.get("nick_name"),
+                    password=form_info.get("password"))
+        return jsonify({})
+    else:
+        return jsonify({"message": "No such user!"}), 400
