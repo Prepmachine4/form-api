@@ -1,12 +1,14 @@
 from flask import Blueprint, request, json
 from bson import ObjectId
 from app.models import *
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 bp_form = Blueprint("form", __name__)  # 创建蓝图，该蓝图管理定义表单的相关路由
 bp_data = Blueprint("data", __name__)  # 创建蓝图，该蓝图管理表单数据的相关路由
 
 
 @bp_form.route('/<user_id>', methods=['POST'])  # 保存用户表单
+@jwt_required(optional=False)
 def saveForm(user_id):
     form_info = request.get_data()
     form_info = json.loads(form_info.decode("UTF-8"))
@@ -31,6 +33,7 @@ def saveForm(user_id):
 
 
 @bp_form.route('/<form_id>', methods=['DELETE'])  # 删除某一表单
+@jwt_required(optional=False)
 def deleteForm(form_id):
     # 删除表单结构
     Form.objects(_id=form_id).delete()
@@ -41,6 +44,7 @@ def deleteForm(form_id):
 
 
 @bp_form.route('/<form_id>', methods=['GET'])  # 获取某一表单
+@jwt_required(optional=False)
 def getForm(form_id):
     form_data = Form.objects(_id=form_id).first()
 
@@ -64,7 +68,10 @@ def getForm(form_id):
 
 
 @bp_form.route('/forms/<user_id>', methods=['GET'])  # 获取用户的所有表单
+@jwt_required(optional=False)
 def getUserForms(user_id):
+    print(get_jwt_identity())  # 获取token里的用户email
+
     form_data_list = Form.objects(user_id=user_id)
     list_data = []
 
@@ -90,6 +97,7 @@ def getUserForms(user_id):
 
 
 @bp_form.route('/setting/<form_id>', methods=['POST'])  # 保存表单设置
+@jwt_required(optional=False)
 def saveFormSetting(form_id):
     form_info = request.get_data()
     form_info = json.loads(form_info.decode("UTF-8"))
@@ -103,6 +111,7 @@ def saveFormSetting(form_id):
 
 
 @bp_form.route('/setting/<form_id>', methods=['GET'])  # 获取表单设置
+@jwt_required(optional=False)
 def getFormSetting(form_id):
     form = Form.objects(_id=form_id).first()
     end_time = form.end_time
@@ -111,6 +120,7 @@ def getFormSetting(form_id):
 
 
 @bp_form.route('/setting/<form_id>', methods=['PUT'])  # 修改表单设置
+@jwt_required(optional=False)
 def updateFormSetting(form_id):
     form_info = request.get_data()
     form_info = json.loads(form_info.decode("UTF-8"))
@@ -124,12 +134,14 @@ def updateFormSetting(form_id):
 
 
 @bp_form.route('/struct/<form_id>', methods=['GET'])  # 获取表单结构
+@jwt_required(optional=False)
 def getFormStruct(form_id):
     form_data = Form.objects(_id=form_id).first()
     return json.jsonify(form_data.struct)
 
 
 @bp_data.route('/<form_id>', methods=['POST'])  # 填写表单
+@jwt_required(optional=False)
 def fillInForm(form_id):
     form_info = request.get_data()
     form_info = json.loads(form_info.decode("UTF-8"))
@@ -149,6 +161,7 @@ def fillInForm(form_id):
 
 
 @bp_data.route('/forms/<form_id>', methods=['GET'])  # 获取表单所有数据
+@jwt_required(optional=False)
 def getAllFormInfo(form_id):
     form_data_list = FormData.objects(form_id=form_id)  # 查询 form_data 集合所有匹配 form_id 的项
     list_data = []  # 存放查找内容
@@ -177,6 +190,7 @@ def getAllFormInfo(form_id):
 
 
 @bp_data.route('/<user_id>', methods=['GET'])  # 获取某个用户填写的表单
+@jwt_required(optional=False)
 def getUserForms(user_id):
     form_data_list = FormData.objects(user_id=user_id)  # 查询 form_data 集合所有匹配 user_id 的项
     list_data = []  # 存放查找内容

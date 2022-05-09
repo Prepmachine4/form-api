@@ -2,6 +2,7 @@ import json
 from flask import request, jsonify, Blueprint
 from app.models import User
 from bson import ObjectId
+from flask_jwt_extended import create_access_token,jwt_required
 
 bp_user = Blueprint("user", __name__)  # 创建蓝图，该蓝图管理用户相关路由
 
@@ -19,7 +20,7 @@ def login():
         return jsonify({"user_info": {"_id": str(user._id),
                                       "email": user.email,
                                       "role": user.role},
-                        "token": "111"})
+                        "token": create_access_token(identity=user.email)})
     else:
         return jsonify({"message":"Email or password error!"}), 400
 
@@ -44,6 +45,7 @@ def register():
 
 
 @bp_user.route('/profile', methods=['PUT'])
+@jwt_required(optional=False)
 def profile():
 
     # 修改密码，传入email、nickname、password
