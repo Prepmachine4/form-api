@@ -134,7 +134,6 @@ def updateFormSetting(form_id):
 
 
 @bp_form.route('/struct/<form_id>', methods=['GET'])  # 获取表单结构
-@jwt_required(optional=False)
 def getFormStruct(form_id):
     form_data = Form.objects(_id=form_id).first()
     return json.jsonify(form_data.struct)
