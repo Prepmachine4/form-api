@@ -26,7 +26,9 @@ def create_app():
         'db': 'form_system',
         'host': '82.157.141.92',
         'port': 27017,
-        'connect': True
+        'username': 'admin',
+        'password': 'ruangongkesheOfmongo',
+        'authentication_source': 'admin'
     }
     db.init_app(app)
 
