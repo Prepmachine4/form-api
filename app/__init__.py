@@ -1,9 +1,8 @@
 import flask
 from flask import Flask
-from app.models import db
-from app.formOperation import *
+from app.model import db
 from flask_cors import CORS
-from app.login import *
+from app.controller import *
 from flask_jwt_extended import JWTManager
 
 
