@@ -10,5 +10,5 @@ class User(db.Document):
     phone = db.StringField(default="")  #用户手机号
     gender = db.StringField(default="")  #用户性别：男 女 其他
     dept_id = db.ObjectIdField(default="")  #用户部门ID
-    post_id = db.ObjectIdield(default="")  #用户岗位ID
+    post_id = db.ObjectIdField(default="")  #用户岗位ID
     enterprise_id = db.ObjectIdField(default="")  #用户企业ID

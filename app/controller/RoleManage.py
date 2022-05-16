@@ -1,14 +1,30 @@
 from flask import request, json
 from app.model.Role import Role
 from bson import ObjectId
-from flask import Blueprint
-
-bp_role = Blueprint("role", __name__)  # 创建蓝图，该蓝图管理角色的相关路由
+from . import bp_role
 
 @bp_role.route('/list/<enterprise_id>', methods=['GET'])
 def getAllRole(enterprise_id):
     '''获取所有角色'''
-    return json.jsonify({})
+    role_list = Role.objects(enterprise_id=enterprise_id)
+    list_data = []
+
+    for role in role_list:
+        _id = str(role._id)
+        enterprise_id = str(role.enterprise_id)
+        roleName = role.roleName
+        roleKey = role.roleKey
+        roleSort = role.roleSort
+        admin = role.admin
+        menuTree = role.menuTree
+        createTime = role.createTime
+        menuIds = role.menuIds
+
+        list_data += [{"_id": _id, "enterprise_id": enterprise_id, "roleName": roleName,
+                       "roleKey": roleKey, "roleSort": roleSort, "admin": admin,
+                       "menuTree": menuTree, "createTime": createTime, "menuIds": menuIds}]
+
+    return json.jsonify(list_data)
 
 
 @bp_role.route('/<enterprise_id>', methods=['POST'])
@@ -38,3 +54,30 @@ def addRole(enterprise_id):
     role.save()
 
     return json.jsonify({})
+
+
+@bp_role.route('/<role_id>', methods=['DELETE'])
+def deleteRole(role_id):
+    '''删除角色'''
+    Role.objects(_id=role_id).delete()
+
+    return json.jsonify({})
+
+
+@bp_role.route('/<role_id>', methods=['GET'])
+def getRoleInfo(role_id):
+    '''获取角色详细信息'''
+    role = Role.objects(_id=role_id).first()
+
+    _id = str(role._id)
+    roleName = role.roleName
+    roleKey = role.roleKey
+    roleSort = role.roleSort
+    admin = role.admin
+    menuTree = role.menuTree
+    createTime = role.createTime
+    menuIds = role.menuIds
+
+    return json.jsonify({"_id": _id, "roleName": roleName,
+                         "roleKey": roleKey, "roleSort": roleSort, "admin": admin,
+                         "menuTree": menuTree, "createTime": createTime, "menuIds": menuIds})
