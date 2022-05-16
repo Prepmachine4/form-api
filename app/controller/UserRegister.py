@@ -1,6 +1,6 @@
 import json
 from flask import request, jsonify
-from app.model import User
+from app.model.User import User
 from bson import ObjectId
 from . import bp_user
 

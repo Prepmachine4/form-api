@@ -1,6 +1,6 @@
 import json
 from flask import request, jsonify
-from app.model import User
+from app.model.User import User
 from flask_jwt_extended import create_access_token
 from . import bp_user
 

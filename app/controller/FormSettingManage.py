@@ -1,5 +1,5 @@
 from flask import request, json
-from app.model import Form
+from app.model.Form import Form
 from flask_jwt_extended import jwt_required
 from . import bp_form
 

@@ -1,8 +1,8 @@
 import flask
 from flask import Flask
 from app.model import db
-from flask_cors import CORS
 from app.controller import *
+from flask_cors import CORS
 from flask_jwt_extended import JWTManager
 
 
@@ -35,6 +35,7 @@ def create_app():
     app.register_blueprint(bp_form, url_prefix='/api/form')
     app.register_blueprint(bp_user, url_prefix='/api/user')
     app.register_blueprint(bp_data, url_prefix='/api/data')
+    app.register_blueprint(bp_role, url_prefix='/api/system/role')
 
     # 注册中间件
     return app

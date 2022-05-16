@@ -1,6 +1,8 @@
 from flask import request, json
 from bson import ObjectId
-from app.model import FormData, Form, User
+from app.model.Form import Form
+from app.model.FormData import FormData
+from app.model.User import User
 from flask_jwt_extended import jwt_required
 from . import bp_data
 
