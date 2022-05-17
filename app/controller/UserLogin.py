@@ -17,6 +17,6 @@ def login():
         return jsonify({"user_info": {"_id": str(user._id),
                                       "email": user.email,
                                       "role": user.role},
-                        "token": create_access_token(identity=user.email)})
+                        "token": create_access_token(identity=str(user._id))})
     else:
         return jsonify({"message": "Email or password error!"}), 400
