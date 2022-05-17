@@ -6,10 +6,11 @@ from app.model.User import User
 from flask_jwt_extended import jwt_required
 from . import bp_data
 
+
 @bp_data.route('/<form_id>', methods=['POST'])
 @jwt_required(optional=False)
 def fillInForm(form_id):
-    '''填写表单'''
+    """填写表单"""
     form_info = request.get_data()
     form_info = json.loads(form_info.decode("UTF-8"))
 
@@ -30,7 +31,7 @@ def fillInForm(form_id):
 @bp_data.route('/forms/<form_id>', methods=['GET'])
 @jwt_required(optional=False)
 def getAllFormData(form_id):
-    '''获取表单所有数据'''
+    """获取表单所有数据"""
     form_data_list = FormData.objects(form_id=form_id)  # 查询 form_data 集合所有匹配 form_id 的项
     list_data = []  # 存放查找内容
 
@@ -60,7 +61,7 @@ def getAllFormData(form_id):
 @bp_data.route('/<user_id>', methods=['GET'])
 @jwt_required(optional=False)
 def getUserForms(user_id):
-    '''获取某个用户填写的表单'''
+    """获取某个用户填写的表单"""
     form_data_list = FormData.objects(user_id=user_id)  # 查询 form_data 集合所有匹配 user_id 的项
     list_data = []  # 存放查找内容
 

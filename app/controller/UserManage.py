@@ -4,10 +4,11 @@ from app.model.User import User
 from flask_jwt_extended import jwt_required
 from . import bp_user
 
+
 @bp_user.route('/profile', methods=['PUT'])
 @jwt_required(optional=False)
 def profile():
-    '''修改用户信息'''
+    """修改用户信息"""
     user_info = request.get_data()
     user_info = json.loads(user_info.decode("UTF-8"))
 
@@ -18,7 +19,7 @@ def profile():
     user = User.objects(email=email).first()
     if user:
         user.update(password=password)
-        if nickname != None:
+        if nickname is not None:
             user.update(nickname=nickname)
         return jsonify({})
     else:

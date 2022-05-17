@@ -4,9 +4,10 @@ from app.model.User import User
 from flask_jwt_extended import create_access_token
 from . import bp_user
 
+
 @bp_user.route('/login', methods=['POST'])
 def login():
-    '''登录'''
+    """登录"""
     user_info = request.get_data()
     user_info = json.loads(user_info.decode("UTF-8"))
 
@@ -18,4 +19,4 @@ def login():
                                       "role": user.role},
                         "token": create_access_token(identity=user.email)})
     else:
-        return jsonify({"message":"Email or password error!"}), 400
+        return jsonify({"message": "Email or password error!"}), 400

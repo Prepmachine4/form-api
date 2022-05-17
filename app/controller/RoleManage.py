@@ -3,9 +3,10 @@ from app.model.Role import Role
 from bson import ObjectId
 from . import bp_role
 
+
 @bp_role.route('/list/<enterprise_id>', methods=['GET'])
 def getAllRole(enterprise_id):
-    '''获取所有角色'''
+    """获取所有角色"""
     role_list = Role.objects(enterprise_id=enterprise_id)
     list_data = []
 
@@ -29,7 +30,7 @@ def getAllRole(enterprise_id):
 
 @bp_role.route('/<enterprise_id>', methods=['POST'])
 def addRole(enterprise_id):
-    '''新增角色'''
+    """新增角色"""
     role_info = request.get_data()
     role_info = json.loads(role_info.decode("UTF-8"))
 
@@ -58,7 +59,7 @@ def addRole(enterprise_id):
 
 @bp_role.route('/<role_id>', methods=['DELETE'])
 def deleteRole(role_id):
-    '''删除角色'''
+    """删除角色"""
     Role.objects(_id=role_id).delete()
 
     return json.jsonify({})
@@ -66,7 +67,7 @@ def deleteRole(role_id):
 
 @bp_role.route('/<role_id>', methods=['GET'])
 def getRoleInfo(role_id):
-    '''获取角色详细信息'''
+    """获取角色详细信息"""
     role = Role.objects(_id=role_id).first()
 
     _id = str(role._id)

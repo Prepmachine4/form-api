@@ -5,10 +5,11 @@ from app.model.FormData import FormData
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from . import bp_form
 
+
 @bp_form.route('/<form_id>', methods=['GET'])
 @jwt_required(optional=False)
 def getForm(form_id):
-    '''获取某个表单的信息'''
+    """获取某个表单的信息"""
     form_data = Form.objects(_id=form_id).first()
 
     _id = str(form_data._id)
@@ -33,7 +34,7 @@ def getForm(form_id):
 @bp_form.route('/forms/<user_id>', methods=['GET'])
 @jwt_required(optional=False)
 def getUserForms(user_id):
-    '''获取用户所有表单的信息'''
+    """获取用户所有表单的信息"""
     print(get_jwt_identity())  # 获取token里的用户email
 
     form_data_list = Form.objects(user_id=user_id)
@@ -63,7 +64,7 @@ def getUserForms(user_id):
 @bp_form.route('/<form_id>', methods=['DELETE'])
 @jwt_required(optional=False)
 def deleteForm(form_id):
-    '''删除某个表单结构'''
+    """删除某个表单结构"""
     Form.objects(_id=form_id).delete()
 
     # 删除填写的数据
@@ -74,7 +75,7 @@ def deleteForm(form_id):
 @bp_form.route('/<user_id>', methods=['POST'])
 @jwt_required(optional=False)
 def saveForm(user_id):
-    '''保存用户表单结构'''
+    """保存用户表单结构"""
     form_info = request.get_data()
     form_info = json.loads(form_info.decode("UTF-8"))
 
@@ -99,6 +100,6 @@ def saveForm(user_id):
 
 @bp_form.route('/struct/<form_id>', methods=['GET'])
 def getFormStruct(form_id):
-    '''获取某个表单的结构json'''
+    """获取某个表单的结构json"""
     form_data = Form.objects(_id=form_id).first()
     return json.jsonify(form_data.struct)

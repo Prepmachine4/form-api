@@ -1,5 +1,6 @@
 from . import db
 
+
 # 对应数据库中的 form_data 集合
 class FormData(db.Document):
     _id = db.ObjectIdField(primary_key=True)  # 表单结果id，mongodb自动生成
