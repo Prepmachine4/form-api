@@ -36,6 +36,7 @@ def create_app():
     app.register_blueprint(bp_user, url_prefix='/api/user')
     app.register_blueprint(bp_data, url_prefix='/api/data')
     app.register_blueprint(bp_role, url_prefix='/api/system/role')
+    app.register_blueprint(bp_dept, url_prefix='/api/system/dept')
 
     # 注册中间件
     return app
