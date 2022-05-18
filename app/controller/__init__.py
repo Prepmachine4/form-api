@@ -8,6 +8,6 @@ bp_post = Blueprint("post", __name__)  # 创建蓝图，该蓝图管理岗位的
 bp_dept = Blueprint("dept", __name__)  # 创建蓝图，该蓝图管理部门的相关路由
 
 from . import FormStructManage, FormSettingManage, FormDataManage
-from . import RoleManage
+from . import RoleManage, PostManage
 from . import UserLogin, UserManage, UserRegister
 from . import DepartmentManage
