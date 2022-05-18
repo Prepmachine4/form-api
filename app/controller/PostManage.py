@@ -9,9 +9,9 @@ import time
 @bp_post.route('/list/<enterprise_id>', methods=['GET'])
 @jwt_required(optional=False)
 def getPostList(enterprise_id):
-    """检查用户权限"""
-    if enterprise_id != get_jwt_identity():
-        return json.jsonify({}), 401
+    # """检查用户权限"""
+    # if enterprise_id != get_jwt_identity():
+    #     return json.jsonify({}), 401
 
 
     """获取公司所有岗位信息"""
@@ -34,9 +34,9 @@ def getPostList(enterprise_id):
 @bp_post.route('/<enterprise_id>', methods=['POST'])
 @jwt_required(optional=False)
 def savePost(enterprise_id):
-    """检查用户权限"""
-    if enterprise_id != get_jwt_identity():
-        return json.jsonify({}), 401
+    # """检查用户权限"""
+    # if enterprise_id != get_jwt_identity():
+    #     return json.jsonify({}), 401
     
     print(1)
     """新增岗位信息"""
@@ -78,9 +78,9 @@ def updatePost():
 
     """检查用户权限"""
     post = Post.objects(_id=_id).first()
-    enterprise_id = post.enterprise_id
-    if enterprise_id != get_jwt_identity():
-        return json.jsonify({}), 401
+    # enterprise_id = post.enterprise_id
+    # if enterprise_id != get_jwt_identity():
+    #     return json.jsonify({}), 401
 
     post.update(postCode=postCode,
                 postName=postName,
@@ -95,9 +95,9 @@ def deletePost(post_id):
 
     """检查用户权限"""
     post = Post.objects(_id=post_id).first()
-    enterprise_id = str(post.enterprise_id)
-    if enterprise_id != get_jwt_identity():
-        return json.jsonify({}), 401
+    # enterprise_id = str(post.enterprise_id)
+    # if enterprise_id != get_jwt_identity():
+    #     return json.jsonify({}), 401
     
     """删除岗位信息"""
     post = Post.objects(_id=post_id).delete()
@@ -109,9 +109,9 @@ def deletePost(post_id):
 def getPost(post_id):
     """检查用户权限"""
     post = Post.objects(_id=post_id).first()
-    enterprise_id = str(post.enterprise_id)
-    if enterprise_id != get_jwt_identity():
-        return json.jsonify({}), 401
+    # enterprise_id = str(post.enterprise_id)
+    # if enterprise_id != get_jwt_identity():
+    #     return json.jsonify({}), 401
     
 
     """获取岗位详细信息"""
