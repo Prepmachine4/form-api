@@ -60,6 +60,27 @@ def addRole(enterprise_id):
     return json.jsonify({})
 
 
+@bp_role.route('/', methods=['PUT'])
+@jwt_required(optional=False)
+def changeRoleInfo():
+    """修改角色"""
+    role_info = request.get_data()
+    role_info = json.loads(role_info.decode("UTF-8"))
+
+    _id = role_info.get("_id")
+    roleName = role_info.get("roleName")
+    roleKey = role_info.get("roleKey")
+    roleSort = role_info.get("roleSort")
+    menuIds = role_info.get("menuIds")
+    dataScope = role_info.get("dataScope")
+
+    role = Role.objects(_id=_id).first()
+    role.update(roleName=roleName, roleKey=roleKey, roleSort=roleSort,
+                menuIds=menuIds, dataScope=dataScope)
+
+    return json.jsonify({})
+
+
 @bp_role.route('/<role_id>', methods=['DELETE'])
 @jwt_required(optional=False)
 def deleteRole(role_id):
