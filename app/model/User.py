@@ -7,6 +7,7 @@ class User(db.Document):
     email = db.StringField(required=True)  # 用户邮箱
     password = db.StringField(required=True)  # 用户密码
     role = db.StringField(required=True)  # 用户类型：个人或企业
+    name = db.StringField(required=True)    # 真实姓名
     nickname = db.StringField(default="")  # 用户昵称
     phone = db.StringField(default="")  # 用户手机号
     gender = db.StringField(default="")  # 用户性别：男 女 其他
