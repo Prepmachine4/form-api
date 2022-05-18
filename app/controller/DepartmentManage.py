@@ -28,7 +28,7 @@ def getAllDepartments(enterprise_id):
 
         list_data += [{"_id:": str(_id),
                        "deptName": deptName,
-                       "parentId": str(parentId),
+                       "parentId": parentId,
                        "orderNum": str(orderNum),
                        "leader_id": str(leader_id),
                        "phone": phone,
@@ -40,7 +40,7 @@ def getAllDepartments(enterprise_id):
 
 @bp_dept.route('/<enterprise_id>', methods=['POST'])
 @jwt_required(optional=False)
-def addDeptment(enterprise_id):
+def addDepartment(enterprise_id):
     """新增部门"""
     _id = ObjectId()
     dept_info = json.loads(request.get_data().decode("UTF-8"))
@@ -119,7 +119,7 @@ def getDepartmentInfomation(dept_id):
 
     return json.jsonify({"_id": dept_id,
                          "deptName": deptName,
-                         "parentId": str(parentId),
+                         "parentId": parentId,
                          "orderNum": str(orderNum),
                          "leader_id": str(leader_id),
                          "phone": phone,
@@ -131,6 +131,6 @@ def getDepartmentInfomation(dept_id):
 @jwt_required(optional=False)
 def getDepartmentTree(enterprise_id):
     """获取部门下拉树结构"""
-    
+
 
     return json.jsonify()
