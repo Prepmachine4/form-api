@@ -7,8 +7,8 @@ class Role(db.Document):
     roleName = db.StringField()  # 角色名
     enterprise_id = db.ObjectIdField()  # 该角色属于的企业
     roleKey = db.StringField()
-    roleSort = db.StringField()
+    roleSort = db.IntField()
     admin = db.BooleanField()  # 该角色是否为管理员
-    menuTree = db.StringField()  # 该角色的菜单权限
+    dataScope = db.StringField()  # 该角色的菜单权限
     createTime = db.StringField()  # 该角色的创建时间
     menuIds = db.StringField()
