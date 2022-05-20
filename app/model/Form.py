@@ -13,6 +13,6 @@ class Form(db.Document):
     is_template = db.BooleanField(required=True)  # 表单是否保存为模板
     url = db.StringField()  # 表单发布后对应的url
 
-    #表单设置
+    # 表单设置
     end_time = db.StringField(default="")  # 表单发布后截止时间
-    tags = db.ListField(db.StringField(), default=[]) #表单标签: 字符串列表
+    tags = db.ListField(db.StringField(), default=[])  # 表单标签: 字符串列表

@@ -41,7 +41,21 @@ def getAllFormData(form_id):
         user = User.objects(_id=str(user_id)).first()
         user_id = str(user_id)
         email = user.email
-        role = user.role
+        enterprise_id = str(user.enterprise_id)
+        name = user.name
+        nick_name = user.nickname
+        phone = user.phone
+        deptId = str(user.dept_id)
+        postIds = str(user.post_id)
+        roleIds = str(user.role_id)
+
+        user_dict = {"_id": user_id, "email": email, "enterprise_id": enterprise_id, "name": name,
+                     "nick_name": nick_name, "phone": phone, "deptId": deptId, "postIds": postIds, "roleIds": roleIds}
+
+        # 清除字典中的空项
+        for k in list(user_dict.keys()):
+            if not user_dict[k]:
+                del user_dict[k]
 
         create_time = form_data.create_time
         data = form_data.data
@@ -49,10 +63,17 @@ def getAllFormData(form_id):
         list_data += [{"_id": str(form_data._id),
                        "create_time": create_time,
                        "data": data,
-                       "user": {"_id": user_id,
-                                "email": email,
-                                "role": role
-                                }
+                       # "user": {"_id": user_id,
+                       #          "email": email,
+                       #          "enterprise_id": enterprise_id,
+                       #          "name": name,
+                       #          "nick_name": nick_name,
+                       #          "phone": phone,
+                       #          "deptId": deptId,
+                       #          "postIds": postIds,
+                       #          "roleIds": roleIds
+                       #          }
+                       "user": user_dict
                        }]
 
     return json.jsonify(list_data)
@@ -75,34 +96,78 @@ def getUserForms(user_id):
         # 查询 form 集合
         form_id = str(form._id)
         is_template = form.is_template
-        name = form.name
+        form_name = form.name
         struct = form.struct
         category = form.category
         form_create_time = form.create_time
         end_time = form.end_time
+        tags = form.tags
         # 表单创建人
         form_user_id = str(form.user_id)
-        # print(form_user_id)
+
         user = User.objects(_id=form_user_id).first()
         # 查询 user 集合
         email = user.email
-        role = user.role
+        enterprise_id = str(user.enterprise_id)
+        user_name = user.name
+        nick_name = user.nickname
+        phone = user.phone
+        deptId = str(user.dept_id)
+        postIds = str(user.post_id)
+        roleIds = str(user.role_id)
 
-        list_data += [{"_id": str(form_data._id),
-                       "create_time": create_time,
-                       "data": data,
-                       "form": {"_id": form_id,
-                                "is_template": is_template,
-                                "name": name,
-                                "struct": struct,
-                                "category": category,
-                                "create_time": form_create_time,
-                                "setting": {"end_time": end_time},
-                                "user": {"_id": form_user_id,
-                                         "email": email,
-                                         "role": role
-                                         }
-                                }
-                       }]
+        setting_dict = {"end_time": end_time, "tags": tags}
+        user_dict = {"_id": form_user_id, "email": email, "enterprise_id": enterprise_id, "name": user_name,
+                     "nick_name": nick_name, "phone": phone, "deptId": deptId, "postIds": postIds, "roleIds": roleIds}
+
+        # 清除字典中的空项
+        for k in list(setting_dict.keys()):
+            if not setting_dict[k]:
+                del setting_dict[k]
+
+        for k in list(user_dict.keys()):
+            if not user_dict[k]:
+                del user_dict[k]
+
+        if setting_dict:  # 如果字典为空
+            list_data += [{"_id": str(form_data._id),
+                           "create_time": create_time,
+                           "data": data,
+                           "form": {"_id": form_id,
+                                    "is_template": is_template,
+                                    "name": form_name,
+                                    "struct": struct,
+                                    "category": category,
+                                    "create_time": form_create_time,
+                                    # "setting": {"end_time": end_time,
+                                    #             "tags": tags
+                                    #             },
+                                    # "user": {"_id": form_user_id,
+                                    #          "email": email,
+                                    #          "enterprise_id": enterprise_id,
+                                    #          "name": user_name,
+                                    #          "nick_name": nick_name,
+                                    #          "phone": phone,
+                                    #          "deptId": deptId,
+                                    #          "postIds": postIds,
+                                    #          "roleIds": roleIds
+                                    #          }
+                                    "setting": setting_dict,
+                                    "user": user_dict
+                                    }
+                           }]
+        else:
+            list_data += [{"_id": str(form_data._id),
+                           "create_time": create_time,
+                           "data": data,
+                           "form": {"_id": form_id,
+                                    "is_template": is_template,
+                                    "name": form_name,
+                                    "struct": struct,
+                                    "category": category,
+                                    "create_time": form_create_time,
+                                    "user": user_dict
+                                    }
+                           }]
 
     return json.jsonify(list_data)

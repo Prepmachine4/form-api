@@ -30,15 +30,15 @@ def getForm(form_id):
         return json.jsonify({"_id": _id, "user_id": user_id, "is_template": is_template,
                              "name": name, "struct": struct, "category": category,
                              "create_time": create_time, "setting": {"end_time": end_time}})
-    elif end_time == "" :
+    elif end_time == "":
         return json.jsonify({"_id": _id, "user_id": user_id, "is_template": is_template,
                              "name": name, "struct": struct, "category": category,
                              "create_time": create_time, "setting": {"tags": tags}})
     else:
         return json.jsonify({"_id": _id, "user_id": user_id, "is_template": is_template,
-                            "name": name, "struct": struct, "category": category,
-                            "create_time": create_time, 
-                            "setting": {"end_time": end_time, "tags": tags}})
+                             "name": name, "struct": struct, "category": category,
+                             "create_time": create_time,
+                             "setting": {"end_time": end_time, "tags": tags}})
 
 
 @bp_form.route('/forms/<user_id>', methods=['GET'])
@@ -58,25 +58,25 @@ def getUserForms(user_id):
         category = form_data.category
         create_time = form_data.create_time
         end_time = form_data.end_time
-        tags=form_data.tags
+        tags = form_data.tags
 
         if end_time == "" and len(tags) == 0:
             list_data += [{"_id": _id, "user_id": user_id, "is_template": is_template,
-                                "name": name, "struct": struct, "category": category,
-                                "create_time": create_time}]
+                           "name": name, "struct": struct, "category": category,
+                           "create_time": create_time}]
         elif len(tags) == 0:
             list_data += [{"_id": _id, "user_id": user_id, "is_template": is_template,
-                                "name": name, "struct": struct, "category": category,
-                                "create_time": create_time, "setting": {"end_time": end_time}}]
-        elif end_time == "" :
+                           "name": name, "struct": struct, "category": category,
+                           "create_time": create_time, "setting": {"end_time": end_time}}]
+        elif end_time == "":
             list_data += [{"_id": _id, "user_id": user_id, "is_template": is_template,
-                                "name": name, "struct": struct, "category": category,
-                                "create_time": create_time, "setting": {"tags": tags}}]
+                           "name": name, "struct": struct, "category": category,
+                           "create_time": create_time, "setting": {"tags": tags}}]
         else:
             list_data += [{"_id": _id, "user_id": user_id, "is_template": is_template,
-                                "name": name, "struct": struct, "category": category,
-                                "create_time": create_time, 
-                                "setting": {"end_time": end_time, "tags": tags}}]
+                           "name": name, "struct": struct, "category": category,
+                           "create_time": create_time,
+                           "setting": {"end_time": end_time, "tags": tags}}]
 
     return json.jsonify(list_data)
 

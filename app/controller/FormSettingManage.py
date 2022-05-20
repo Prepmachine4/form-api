@@ -31,7 +31,7 @@ def getFormSetting(form_id):
 
 
 @bp_form.route('/setting/<form_id>', methods=['PUT'])
-#@jwt_required(optional=False)
+# @jwt_required(optional=False)
 def updateFormSetting(form_id):
     """修改表单设置"""
     form_info = request.get_data()
