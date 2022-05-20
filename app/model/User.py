@@ -14,4 +14,4 @@ class User(db.Document):
     dept_id = db.ObjectIdField(default="")  # 用户部门ID
     post_id = db.ObjectIdField(default="")  # 用户岗位ID
     enterprise_id = db.ObjectIdField(default="")  # 用户企业ID
-    role_id = db.ObjcetIdField(default="")  # 用户角色ID
+    role_id = db.ObjectIdField(default="")  # 用户角色ID
