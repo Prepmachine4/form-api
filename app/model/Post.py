@@ -8,4 +8,5 @@ class Post(db.Document):
     postCode = db.StringField(required=True)  # 岗位编码
     postName = db.StringField(required=True)  # 岗位名称
     postSort = db.IntField(required=True)  # 显示顺序
-    create_time = db.StringField(required=True)  # 创建时间
+    createTime = db.StringField(required=True)  # 创建时间
+    remark = db.StringField(default="") #备注

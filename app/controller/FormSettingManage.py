@@ -10,11 +10,11 @@ def saveFormSetting(form_id):
     """保存表单设置"""
     form_info = request.get_data()
     form_info = json.loads(form_info.decode("UTF-8"))
-    setting = form_info.get("setting")
-    end_time = setting.get("end_time")
+    end_time = form_info.get("end_time")
+    tags = form_info.get("tags")
 
     form = Form.objects(_id=form_id).first()
-    form.update(end_time=end_time)
+    form.update(end_time=end_time, tags=tags)
 
     return json.jsonify({})
 
@@ -25,20 +25,21 @@ def getFormSetting(form_id):
     """获取表单设置"""
     form = Form.objects(_id=form_id).first()
     end_time = form.end_time
+    tags = form.tags
 
-    return json.jsonify({"setting": {"end_time": end_time}})
+    return json.jsonify({"setting": {"end_time": end_time, "tags": tags}})
 
 
 @bp_form.route('/setting/<form_id>', methods=['PUT'])
-@jwt_required(optional=False)
+#@jwt_required(optional=False)
 def updateFormSetting(form_id):
     """修改表单设置"""
     form_info = request.get_data()
     form_info = json.loads(form_info.decode("UTF-8"))
-    setting = form_info.get("setting")
-    end_time = setting.get("end_time")
+    end_time = form_info.get("end_time")
+    tags = form_info.get("tags")
 
     form = Form.objects(_id=form_id).first()
-    form.update(end_time=end_time)
+    form.update(end_time=end_time, tags=tags)
 
     return json.jsonify({})
