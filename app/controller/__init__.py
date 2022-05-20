@@ -6,6 +6,7 @@ bp_data = Blueprint("data", __name__)  # 创建蓝图，该蓝图管理表单数
 bp_role = Blueprint("role", __name__)  # 创建蓝图，该蓝图管理角色的相关路由
 bp_post = Blueprint("post", __name__)  # 创建蓝图，该蓝图管理岗位的相关路由
 bp_dept = Blueprint("dept", __name__)  # 创建蓝图，该蓝图管理部门的相关路由
+bp_sysu = Blueprint("sysu", __name__)  # 创建蓝图，该蓝图管理用户的相关路由
 
 from . import FormStructManage, FormSettingManage, FormDataManage
 from . import RoleManage, PostManage
