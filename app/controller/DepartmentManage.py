@@ -131,6 +131,22 @@ def getDepartmentInfomation(dept_id):
 @jwt_required(optional=False)
 def getDepartmentTree(enterprise_id):
     """获取部门下拉树结构"""
+    department_list = Department.objects(enterprise_id=enterprise_id)
 
+    # 构建元素为 {'id':'', 'label': '', 'parent_id':'', 'children':''} 的部门集合
+    department_node = []
+    for department in department_list:
+        department_node += [{'id': str(department._id), 'label': department.deptName,
+                             'parent_id': str(department.parentId), 'children': ''}]
+    # 获取根节点
+    tree = [node for node in department_node if node['parent_id'] == '']  # 不能换成 is None
+    # 给每个节点添加子节点
+    for node in department_node:
+        node['children'] = [n for n in department_node if node['id'] == n['parent_id']]
 
-    return json.jsonify()
+    # 清除不需要返回的 parent_id
+    for node in department_node:
+        del node['parent_id']
+    # print(tree)
+
+    return json.jsonify(tree)
