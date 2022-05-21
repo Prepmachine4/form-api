@@ -57,7 +57,7 @@ def addRole(enterprise_id):
     return json.jsonify({})
 
 
-@bp_role.route('/', methods=['PUT'])
+@bp_role.route('', methods=['PUT'])
 @jwt_required(optional=False)
 def changeRoleInfo():
     """修改角色"""
