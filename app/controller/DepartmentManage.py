@@ -8,7 +8,7 @@ from . import bp_dept
 
 
 @bp_dept.route('/list/<enterprise_id>', methods=['GET'])
-# @jwt_required(optional=False)
+@jwt_required(optional=False)
 def getAllDepartments(enterprise_id):
     """获取所有部门"""
     department_list = Department.objects(enterprise_id=enterprise_id)
@@ -39,7 +39,7 @@ def getAllDepartments(enterprise_id):
 
 
 @bp_dept.route('/<enterprise_id>', methods=['POST'])
-@jwt_required(optional=False)
+# @jwt_required(optional=False)
 def addDepartment(enterprise_id):
     """新增部门"""
     _id = ObjectId()
@@ -95,9 +95,9 @@ def deleteDepartment(dept_id):
     """删除部门"""
 
     # 删除相关用户对应的部门信息
-    users = User.objects(dept_id=dept_id)
+    users = User.objects(deptId=dept_id)
     for user in users:
-        user.dept_id = ''
+        user.deptId = None
         user.save()
 
     # 删除部门
