@@ -8,7 +8,7 @@ from . import bp_dept
 
 
 @bp_dept.route('/list/<enterprise_id>', methods=['GET'])
-@jwt_required(optional=False)
+# @jwt_required(optional=False)
 def getAllDepartments(enterprise_id):
     """获取所有部门"""
     department_list = Department.objects(enterprise_id=enterprise_id)
@@ -28,7 +28,7 @@ def getAllDepartments(enterprise_id):
 
         list_data += [{"_id": str(_id),
                        "deptName": deptName,
-                       "parentId": parentId,
+                       "parentId": str(parentId),
                        "orderNum": str(orderNum),
                        "leader_id": str(leader_id),
                        "phone": phone,
