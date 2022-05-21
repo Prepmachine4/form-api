@@ -103,7 +103,7 @@ def getUserList(enterprise_id):
 
 
 @bp_sysu.route('/<enterprise_id>', methods=['POST'])
-@jwt_required(optional=False)
+# @jwt_required(optional=False)
 def enterpriseAddUser(enterprise_id):
     """企业添加用户"""
     user_info = request.get_data()
@@ -126,6 +126,7 @@ def enterpriseAddUser(enterprise_id):
                 nickname=nickname,
                 phone=phone,
                 deptId=deptId,
+                enterprise_id=enterprise_id,
                 postIds=postIds,
                 roleIds=roleIds)
     user.save()
