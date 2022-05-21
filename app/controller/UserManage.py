@@ -68,7 +68,7 @@ def getUserInfo(user_id):
 
 
 @bp_sysu.route('/list/<enterprise_id>', methods=['GET'])
-@jwt_required(optional=False)
+#@jwt_required(optional=False)
 def getUserList(enterprise_id):
     """获取用户列表"""
     userlist = User.objects(enterprise_id=enterprise_id)
@@ -85,15 +85,16 @@ def getUserList(enterprise_id):
         postIds = user.postIds
         roleIds = user.roleIds
         # dept = []
-        if _id != enterprise_id:
-            department = Department.objects(_id=deptId).first()
-            dept = {"_id": deptId,
-                    "deptName": department.deptName,
-                    "parentId": department.parentId,
-                    "orderNum": department.orderNum,
-                     "leader_id": str(department.leader_id),
-                    "phone": department.phone,
-                    "createTime": department.createTime}
+
+        department = Department.objects(_id=deptId).first()
+        dept = {"_id": deptId,
+                "deptName": department.deptName,
+                "parentId": department.parentId,
+                "orderNum": department.orderNum,
+                 "leader_id": str(department.leader_id),
+                "phone": department.phone,
+                "createTime": department.createTime}
+
         list_data += [{"_id": str(_id), "email": email, "password": password, "name": name,
                        "nick_name": nick_name, "phone": phone, "deptId": deptId,
                        "postIds": postIds, "roleIds": roleIds,
