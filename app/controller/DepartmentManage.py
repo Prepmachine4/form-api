@@ -26,7 +26,7 @@ def getAllDepartments(enterprise_id):
         leader = User.objects(_id=str(leader_id)).first()
         leader_name = leader.name
 
-        list_data += [{"_id:": str(_id),
+        list_data += [{"_id": str(_id),
                        "deptName": deptName,
                        "parentId": parentId,
                        "orderNum": str(orderNum),

@@ -68,7 +68,7 @@ def getUserInfo(user_id):
 
 
 @bp_sysu.route('/list/<enterprise_id>', methods=['GET'])
-#@jwt_required(optional=False)
+@jwt_required(optional=False)
 def getUserList(enterprise_id):
     """获取用户列表"""
     userlist = User.objects(enterprise_id=enterprise_id)
