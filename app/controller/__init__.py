@@ -9,7 +9,7 @@ bp_dept = Blueprint("dept", __name__)  # 创建蓝图，该蓝图管理部门的
 bp_sysu = Blueprint("sysu", __name__)  # 创建蓝图，该蓝图管理用户的相关路由
 
 from . import FormStructManage, FormSettingManage, FormDataManage
-from . import RoleManage, PostManage
+from . import RoleManage
 from . import UserLogin, UserManage, UserRegister
 from . import DepartmentManage
 from . import PostManage
