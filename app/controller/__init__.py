@@ -12,3 +12,4 @@ from . import FormStructManage, FormSettingManage, FormDataManage
 from . import RoleManage, PostManage
 from . import UserLogin, UserManage, UserRegister
 from . import DepartmentManage
+from . import PostManage

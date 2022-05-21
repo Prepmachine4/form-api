@@ -19,13 +19,12 @@ def getAllRole(enterprise_id):
         roleName = role.roleName
         roleKey = role.roleKey
         roleSort = role.roleSort
-        admin = role.admin
         dataScope = role.dataScope
         createTime = role.createTime
         menuIds = role.menuIds
 
         list_data += [{"_id": _id, "enterprise_id": enterprise_id, "roleName": roleName,
-                       "roleKey": roleKey, "roleSort": roleSort, "admin": admin,
+                       "roleKey": roleKey, "roleSort": roleSort,
                        "dataScope": dataScope, "createTime": createTime, "menuIds": menuIds}]
     return json.jsonify(list_data)
 
@@ -41,19 +40,17 @@ def addRole(enterprise_id):
     roleKey = role_info.get("roleKey")
     roleSort = role_info.get("roleSort")
     menuIds = role_info.get("menuIds")
-    admin = False
     dataScope = ""
     createTime = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
 
     role = Role(_id=ObjectId(),
-                roleName=roleName,
                 enterprise_id=enterprise_id,
+                roleName=roleName,
                 roleKey=roleKey,
                 roleSort=roleSort,
-                admin=admin,
+                menuIds=menuIds,
                 dataScope=dataScope,
-                createTime=createTime,
-                menuIds=menuIds)
+                createTime=createTime)
 
     role.save()
 
@@ -68,15 +65,16 @@ def changeRoleInfo():
     role_info = json.loads(role_info.decode("UTF-8"))
 
     _id = role_info.get("_id")
+    enterprise_id = role_info.get("enterprise_id")
     roleName = role_info.get("roleName")
     roleKey = role_info.get("roleKey")
     roleSort = role_info.get("roleSort")
     menuIds = role_info.get("menuIds")
-    dataScope = role_info.get("dataScope")
 
     role = Role.objects(_id=_id).first()
-    role.update(roleName=roleName, roleKey=roleKey, roleSort=roleSort,
-                menuIds=menuIds, dataScope=dataScope)
+    role.update(enterprise_id=enterprise_id,
+                roleName=roleName, roleKey=roleKey,
+                roleSort=roleSort, menuIds=menuIds)
 
     return json.jsonify({})
 
@@ -100,14 +98,13 @@ def getRoleInfo(role_id):
     roleName = role.roleName
     roleKey = role.roleKey
     roleSort = role.roleSort
-    admin = role.admin
     dataScope = role.dataScope
     createTime = role.createTime
     menuIds = role.menuIds
 
-    return json.jsonify({"_id": _id, "roleName": roleName,
-                         "roleKey": roleKey, "roleSort": roleSort, "admin": admin,
-                         "dataScope": dataScope, "createTime": createTime, "menuIds": menuIds})
+    return json.jsonify({"_id": _id, "roleName": roleName,"roleKey": roleKey,
+                         "roleSort": roleSort, "dataScope": dataScope,
+                         "createTime": createTime, "menuIds": menuIds})
 
 
 @bp_role.route('/dataScope', methods=['PUT'])

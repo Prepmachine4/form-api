@@ -32,7 +32,7 @@ def getPostList(enterprise_id):
     return json.jsonify(list_data)
 
 @bp_post.route('/<enterprise_id>', methods=['POST'])
-@jwt_required(optional=False)
+#@jwt_required(optional=False)
 def savePost(enterprise_id):
     # """检查用户权限"""
     # if enterprise_id != get_jwt_identity():
