@@ -8,7 +8,7 @@ from . import bp_user, bp_sysu
 
 
 @bp_user.route('/profile', methods=['PUT'])
-# @jwt_required(optional=False)
+@jwt_required(optional=False)
 def profile():
     """修改用户信息"""
     user_info = request.get_data()
