@@ -2,6 +2,7 @@ from flask import request, json
 from app.model.Process import Process
 from bson import ObjectId
 import time
+import xmltodict
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from . import bp_proc
 
@@ -15,8 +16,16 @@ def saveProcess(enterprise_id):
     svg = proc_info.get("svg")
     xml = proc_info.get("xml")
     name = proc_info.get("name")
-    users = proc_info.get("users")
     createTime = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
+
+    xml_parser = xmltodict.parse(xml,encoding='utf-8')
+    xml_json = json.dumps(xml_parser)
+    xml_dict = json.loads(xml_json)
+
+    userTaskList = xml_dict['bpmn2:definitions']['bpmn2:process']['bpmn2:userTask']
+    users = []
+    for userTask in userTaskList:
+        users += [{"type":userTask.get("@userType"), "_id":userTask.get("@id")}]
 
     proc = Process(_id=ObjectId(),
                    enterprise_id=enterprise_id,
