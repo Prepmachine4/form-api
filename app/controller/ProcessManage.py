@@ -25,7 +25,10 @@ def saveProcess(enterprise_id):
     userTaskList = xml_dict['bpmn2:definitions']['bpmn2:process']['bpmn2:userTask']
     users = []
     for userTask in userTaskList:
-        users += [{"type":userTask.get("@userType"), "_id":userTask.get("@id")}]
+        if userTask.get("@userType") == 'assignee':
+            users += [{"type":"assignee", "_id":userTask.get("@assignee")}]
+        else:
+            users += [{"type":"candidateGroups", "_id":userTask.get("@candidateGroups")}]
 
     proc = Process(_id=ObjectId(),
                    enterprise_id=enterprise_id,
