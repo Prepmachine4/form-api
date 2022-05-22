@@ -8,27 +8,41 @@ from . import bp_user, bp_sysu
 
 
 @bp_user.route('/profile', methods=['PUT'])
-@jwt_required(optional=False)
+# @jwt_required(optional=False)
 def profile():
     """修改用户信息"""
     user_info = request.get_data()
     user_info = json.loads(user_info.decode("UTF-8"))
 
+    _id = user_info.get("_id")
     email = user_info.get("email")
     password = user_info.get("password")
     name = user_info.get("name")
     nickname = user_info.get("nick_name")
     phone = user_info.get("phone")
+    deptId = user_info.get("deptId")
+    postIds = user_info.get("postIds")
+    roleIds = user_info.get("roleIds")
 
-    user = User.objects(email=email).first()
+    user = User.objects(_id=_id).first()
+    print(user)
     if user:
-        user.update(password=password)
+        if email is not None:
+            user.update(email=email)
+        if password is not None:
+            user.update(password=password)
         if name is not None:
             user.update(name=name)
         if nickname is not None:
             user.update(nickname=nickname)
-        # if phone is not None:
-        user.update(phone=phone)
+        if phone is not None:
+            user.update(phone=phone)
+        if deptId is not None:
+            user.update(deptId=deptId)
+        if postIds is not None:
+            user.update(postIds=postIds)
+        if roleIds is not None:
+            user.update(roleIds=roleIds)
         return jsonify({})
     else:
         return jsonify({"message": "No such user!"}), 400
