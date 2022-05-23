@@ -4,6 +4,7 @@ from app.model.Form import Form
 from app.model.FormData import FormData
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from . import bp_form
+from . import template
 
 
 @bp_form.route('/<form_id>', methods=['GET'])
@@ -123,3 +124,9 @@ def getFormStruct(form_id):
     """获取某个表单的结构json"""
     form_data = Form.objects(_id=form_id).first()
     return json.jsonify(form_data.struct)
+
+
+@bp_form.route('/template/<int:index>', methods=['GET'])
+def getFormTemplate(index):
+    """获取系统模板"""
+    return template[index]
