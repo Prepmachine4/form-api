@@ -16,3 +16,4 @@ class Form(db.Document):
     # 表单设置
     end_time = db.StringField(default="")  # 表单发布后截止时间
     tags = db.ListField(db.StringField(), default=[])  # 表单标签: 字符串列表
+    process_id = db.ObjectIdField(required=False)   # 流程id
