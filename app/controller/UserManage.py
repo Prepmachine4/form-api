@@ -98,7 +98,6 @@ def getUserList(enterprise_id):
         deptId = str(user.deptId)
         postIds = user.postIds
         roleIds = user.roleIds
-        # dept = []
 
         department = Department.objects(_id=deptId).first()
         dept = {"_id": deptId,
