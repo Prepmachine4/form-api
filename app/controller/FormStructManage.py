@@ -119,7 +119,7 @@ def saveForm(user_id):
     return json.jsonify({"_id": str(user_form._id)})
 
 
-@bp_form.route('/', methods=['PUT'])
+@bp_form.route('', methods=['PUT'])
 @jwt_required(optional=False)
 def changeFormStruct():
     form_info = request.get_data()
