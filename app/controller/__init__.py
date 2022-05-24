@@ -1,6 +1,4 @@
 from flask import Blueprint
-import os
-import json
 
 bp_user = Blueprint("user", __name__)  # 创建蓝图，该蓝图管理用户登录和注册、账户管理相关路由
 bp_form = Blueprint("form", __name__)  # 创建蓝图，该蓝图管理表单信息的相关路由
@@ -10,18 +8,7 @@ bp_post = Blueprint("post", __name__)  # 创建蓝图，该蓝图管理岗位的
 bp_dept = Blueprint("dept", __name__)  # 创建蓝图，该蓝图管理部门的相关路由
 bp_sysu = Blueprint("sysu", __name__)  # 创建蓝图，该蓝图管理用户的相关路由
 bp_proc = Blueprint("proc", __name__)  # 创建蓝图，该蓝图管理流程的相关路由
-bp_audit = Blueprint("audit", __name__)  # 创建蓝图，该蓝图管理审核的相关路由
-
-# 存储系统模板
-template = []
-directory = os.getcwd() + r"\controller"
-
-f = open(directory + r"\template1.txt", 'r', encoding='utf-8')
-data = json.loads(f.read())
-template += [data]
-f = open(directory + r"\template2.txt", 'r', encoding='utf-8')
-data = json.loads(f.read())
-template += [data]
+bp_audit = Blueprint("audit", __name__) # 创建蓝图，该蓝图管理审核的相关路由
 
 from . import FormStructManage, FormSettingManage, FormDataManage
 from . import RoleManage

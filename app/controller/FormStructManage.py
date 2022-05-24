@@ -1,10 +1,10 @@
 from flask import request, json
+import flask
 from bson import ObjectId
 from app.model.Form import Form
 from app.model.FormData import FormData
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from . import bp_form
-from . import template
 
 
 @bp_form.route('/<form_id>', methods=['GET'])
@@ -120,6 +120,7 @@ def saveForm(user_id):
 
 
 @bp_form.route('/struct/<form_id>', methods=['GET'])
+@jwt_required(optional=False)
 def getFormStruct(form_id):
     """获取某个表单的结构json"""
     form_data = Form.objects(_id=form_id).first()
@@ -127,6 +128,10 @@ def getFormStruct(form_id):
 
 
 @bp_form.route('/template/<int:index>', methods=['GET'])
+@jwt_required(optional=False)
 def getFormTemplate(index):
     """获取系统模板"""
-    return template[index]
+    if index == 0:
+        return flask.redirect("/static/sys_template/template1.txt")
+    else:
+        return flask.redirect("/static/sys_template/template2.txt")
