@@ -119,6 +119,22 @@ def saveForm(user_id):
     return json.jsonify({"_id": str(user_form._id)})
 
 
+@bp_form.route('/', methods=['PUT'])
+# @jwt_required(optional=False)
+def changeFormStruct():
+    form_info = request.get_data()
+    form_info = json.loads(form_info.decode("UTF-8"))
+
+    _id = form_info.get("_id")
+    name = form_info.get("name")
+    struct = form_info.get("struct")
+
+    form_data = Form.objects(_id=_id).first()
+    form_data.update(name=name, struct=struct)
+
+    return json.jsonify({})
+
+
 @bp_form.route('/struct/<form_id>', methods=['GET'])
 @jwt_required(optional=False)
 def getFormStruct(form_id):
