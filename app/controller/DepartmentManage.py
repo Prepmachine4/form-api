@@ -39,7 +39,7 @@ def getAllDepartments(enterprise_id):
 
 
 @bp_dept.route('/<enterprise_id>', methods=['POST'])
-# @jwt_required(optional=False)
+@jwt_required(optional=False)
 def addDepartment(enterprise_id):
     """新增部门"""
     _id = ObjectId()
@@ -65,9 +65,9 @@ def addDepartment(enterprise_id):
     return json.jsonify({"_id": str(_id)})
 
 
-@bp_dept.route('/<dept_id>', methods=['PUT'])
-@jwt_required(optional=False)
-def updateDepartment(dept_id):
+@bp_dept.route('/', methods=['PUT'])
+# @jwt_required(optional=False)
+def updateDepartment():
     """修改部门"""
     dept_info = json.loads(request.get_data().decode("UTF-8"))
 
