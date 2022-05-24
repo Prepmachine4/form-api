@@ -128,7 +128,6 @@ def getFormStruct(form_id):
 
 
 @bp_form.route('/template/<int:index>', methods=['GET'])
-@jwt_required(optional=False)
 def getFormTemplate(index):
     """获取系统模板"""
     if index == 0:
