@@ -111,7 +111,7 @@ def getUserList(enterprise_id):
 
         list_data += [{"_id": str(_id), "email": email, "password": password, "name": name,
                        "nick_name": nick_name, "phone": phone, "deptId": deptId,
-                       "postIds": postIds, "roleIds": roleIds,
+                       "postIds": postIds, "roleIds": roleIds, "enterprise_id": enterprise_id,
                        "dept": dept}]
     return jsonify(list_data)
 
