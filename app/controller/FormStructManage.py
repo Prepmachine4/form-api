@@ -128,10 +128,17 @@ def getFormStruct(form_id):
 
 
 @bp_form.route('/template/<int:index>', methods=['GET'])
-@jwt_required(optional=False)
 def getFormTemplate(index):
     """获取系统模板"""
     if index == 0:
-        return flask.redirect("/static/sys_template/template1.txt")
+        return flask.redirect("/static/sys_template/出差审批表.json")
+    elif index == 1:
+        return flask.redirect("/static/sys_template/设备购买申请表.json")
+    elif index == 2:
+        return flask.redirect("/static/sys_template/请假申请表.json")
+    elif index == 3:
+        return flask.redirect("/static/sys_template/意见调查表.json")
+    elif index == 4:
+        return flask.redirect("/static/sys_template/信息采集表.json")
     else:
-        return flask.redirect("/static/sys_template/template2.txt")
+        return flask.redirect("/static/sys_template/签到表.json")
