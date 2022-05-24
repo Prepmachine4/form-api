@@ -7,6 +7,7 @@ import xmltodict
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from . import bp_audit
 
+
 @bp_audit.route('/<formdata_id>', methods=['POST'])
 @jwt_required(optional=False)
 def saveAudit(formdata_id):
@@ -47,7 +48,7 @@ def saveAudit(formdata_id):
 
     userNum = len(xml_dict['bpmn2:definitions']['bpmn2:process']['bpmn2:userTask'])
     if userNum == formdata.audit_user_index + 1:
-        formdata.update(audit_success = True)
+        formdata.update(audit_success=True)
 
     formdata.update(audit_user_index=formdata.audit_user_index + 1)
 

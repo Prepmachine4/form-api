@@ -29,7 +29,7 @@ def getAllDepartments(enterprise_id):
         list_data += [{"_id": str(_id),
                        "deptName": deptName,
                        "parentId": str(parentId),
-                       "orderNum": str(orderNum),
+                       "orderNum": orderNum,
                        "leader_id": str(leader_id),
                        "phone": phone,
                        "createTime": createTime,
@@ -120,7 +120,7 @@ def getDepartmentInfomation(dept_id):
     return json.jsonify({"_id": dept_id,
                          "deptName": deptName,
                          "parentId": parentId,
-                         "orderNum": str(orderNum),
+                         "orderNum": orderNum,
                          "leader_id": str(leader_id),
                          "phone": phone,
                          "createTime": createTime
