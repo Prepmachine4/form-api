@@ -120,7 +120,7 @@ def saveForm(user_id):
 
 
 @bp_form.route('/', methods=['PUT'])
-# @jwt_required(optional=False)
+@jwt_required(optional=False)
 def changeFormStruct():
     form_info = request.get_data()
     form_info = json.loads(form_info.decode("UTF-8"))
