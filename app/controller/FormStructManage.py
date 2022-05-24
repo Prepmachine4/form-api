@@ -1,4 +1,5 @@
 from flask import request, json
+import flask
 from bson import ObjectId
 from app.model.Form import Form
 from app.model.FormData import FormData
@@ -118,8 +119,42 @@ def saveForm(user_id):
     return json.jsonify({"_id": str(user_form._id)})
 
 
+@bp_form.route('/', methods=['PUT'])
+@jwt_required(optional=False)
+def changeFormStruct():
+    form_info = request.get_data()
+    form_info = json.loads(form_info.decode("UTF-8"))
+
+    _id = form_info.get("_id")
+    name = form_info.get("name")
+    struct = form_info.get("struct")
+
+    form_data = Form.objects(_id=_id).first()
+    form_data.update(name=name, struct=struct)
+
+    return json.jsonify({})
+
+
 @bp_form.route('/struct/<form_id>', methods=['GET'])
+@jwt_required(optional=False)
 def getFormStruct(form_id):
     """获取某个表单的结构json"""
     form_data = Form.objects(_id=form_id).first()
     return json.jsonify(form_data.struct)
+
+
+@bp_form.route('/template/<int:index>', methods=['GET'])
+def getFormTemplate(index):
+    """获取系统模板"""
+    if index == 0:
+        return flask.redirect("/static/sys_template/出差审批表.json")
+    elif index == 1:
+        return flask.redirect("/static/sys_template/设备购买申请表.json")
+    elif index == 2:
+        return flask.redirect("/static/sys_template/请假申请表.json")
+    elif index == 3:
+        return flask.redirect("/static/sys_template/意见调查表.json")
+    elif index == 4:
+        return flask.redirect("/static/sys_template/信息采集表.json")
+    else:
+        return flask.redirect("/static/sys_template/签到表.json")

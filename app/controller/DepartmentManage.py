@@ -29,7 +29,7 @@ def getAllDepartments(enterprise_id):
         list_data += [{"_id": str(_id),
                        "deptName": deptName,
                        "parentId": str(parentId),
-                       "orderNum": str(orderNum),
+                       "orderNum": orderNum,
                        "leader_id": str(leader_id),
                        "phone": phone,
                        "createTime": createTime,
@@ -39,7 +39,7 @@ def getAllDepartments(enterprise_id):
 
 
 @bp_dept.route('/<enterprise_id>', methods=['POST'])
-# @jwt_required(optional=False)
+@jwt_required(optional=False)
 def addDepartment(enterprise_id):
     """新增部门"""
     _id = ObjectId()
@@ -65,9 +65,9 @@ def addDepartment(enterprise_id):
     return json.jsonify({"_id": str(_id)})
 
 
-@bp_dept.route('/<dept_id>', methods=['PUT'])
+@bp_dept.route('/', methods=['PUT'])
 @jwt_required(optional=False)
-def updateDepartment(dept_id):
+def updateDepartment():
     """修改部门"""
     dept_info = json.loads(request.get_data().decode("UTF-8"))
 
@@ -120,7 +120,7 @@ def getDepartmentInfomation(dept_id):
     return json.jsonify({"_id": dept_id,
                          "deptName": deptName,
                          "parentId": parentId,
-                         "orderNum": str(orderNum),
+                         "orderNum": orderNum,
                          "leader_id": str(leader_id),
                          "phone": phone,
                          "createTime": createTime
