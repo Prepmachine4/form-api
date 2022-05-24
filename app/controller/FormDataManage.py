@@ -32,8 +32,7 @@ def fillInForm(form_id):
                          audit_success=audit_success)
     form_data.save()
 
-    form = Form.objects(_id=form_id).first()
-    form.update(xml=process_xml)
+
 
     return json.jsonify({"_id": str(form_data._id)})
 
