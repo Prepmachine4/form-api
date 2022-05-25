@@ -4,6 +4,7 @@ from app.model.Form import Form
 from app.model.FormData import FormData
 from app.model.User import User
 from app.model.Audit import Audit
+from app.model.Department import Department
 from flask_jwt_extended import jwt_required
 from . import bp_data
 
@@ -54,9 +55,10 @@ def getAllFormData(form_id):
         name = user.name
         nick_name = user.nickname
         phone = user.phone
+        deptName = Department.objects(_id=str(user.deptId)).first().deptName
 
         user_dict = {"_id": user_id, "email": email, "enterprise_id": enterprise_id, "name": name,
-                     "nick_name": nick_name, "phone": phone}
+                     "nick_name": nick_name, "phone": phone, "deptName": deptName}
 
         # # 清除字典中的空项
         # for k in list(user_dict.keys()):
@@ -70,13 +72,41 @@ def getAllFormData(form_id):
         audit_user_index = form_data.audit_user_index
         audit_success = form_data.audit_success
 
+        audit_list = Audit.objects(formdata_id=str(form_data._id))
+        audit_list_data = []
+        for audit in audit_list:
+            audit_id = str(audit._id)
+            audit_user_id = str(audit.user_id)
+            audit_formdata_id = str(audit.formdata_id)
+            audit_index = audit.index
+            audit_ip = audit.ip
+            audit_opinion = audit.opinion
+            audit_sign = audit.sign
+            audit_result = audit.result
+            audit_createTime = audit.createTime
+            audit_user_name = User.objects(_id=audit_user_id).first().name
+
+            audit_list_data += [{
+                "_id": audit_id,
+                "user_id": audit_user_id,
+                "formdata_id": audit_formdata_id,
+                "index": audit_index,
+                "ip": audit_ip,
+                "opinion": audit_opinion,
+                "sign": audit_sign,
+                "result": audit_result,
+                "createTime": audit_createTime,
+                "user_name": audit_user_name
+            }]
+
         list_data += [{"_id": str(form_data._id),
                        "create_time": create_time,
                        "data": data,
                        "process_xml": process_xml,
                        "audit_user_index": audit_user_index,
                        "audit_success": audit_success,
-                       "user": user_dict
+                       "user": user_dict,
+                       "audit_history": audit_list_data
                        }]
 
     return json.jsonify(list_data)
