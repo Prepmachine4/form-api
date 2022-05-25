@@ -20,8 +20,13 @@ def fillInForm(form_id):
     create_time = form_info.get("create_time")
     user_id = form_info.get("user_id")
     data = form_info.get("data")
-    process_id = Form.objects(_id=str(form_id)).first().process_id
-    process_xml = Process.objects(_id=str(process_id)).first().xml
+
+    process_xml = ''
+    if Form.objects(_id=str(form_id)).first().category == "业务型":
+        process_id = Form.objects(_id=str(form_id)).first().process_id
+        print(process_id)
+        process_xml = Process.objects(_id=str(process_id)).first().xml
+
     audit_user_index = 0
     audit_success = False
 
@@ -34,8 +39,6 @@ def fillInForm(form_id):
                          audit_user_index=audit_user_index,
                          audit_success=audit_success)
     form_data.save()
-
-
 
     return json.jsonify({"_id": str(form_data._id)})
 
@@ -208,3 +211,17 @@ def getUserForms(user_id):
                        }]
 
     return json.jsonify(list_data)
+
+
+@bp_data.route('/<formdata_id>', methods=['PUT'])
+@jwt_required(optional=False)
+def updateFormData(formdata_id):
+    """修改表单数据"""
+    form_data = FormData.objects(_id=str(formdata_id)).first()
+
+    form_data_info = json.loads(request.get_data().decode("UTF-8"))
+    data = form_data_info.get("data")
+
+    form_data.update(data=data)
+
+    return json.jsonify({})

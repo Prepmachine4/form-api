@@ -133,7 +133,7 @@ def getDepartmentTree(enterprise_id):
     """获取部门下拉树结构"""
     department_list = Department.objects(enterprise_id=enterprise_id)
 
-    # 构建元素为 {'id':'', 'label': '', 'parent_id':'', 'children':''} 的部门集合
+    # 构建元素为 {'id':'', 'label':'', 'parent_id':'', 'children':''} 的部门集合
     department_node = []
     for department in department_list:
         department_node += [{'id': str(department._id), 'label': department.deptName,
