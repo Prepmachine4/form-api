@@ -47,15 +47,20 @@ def saveAudit(formdata_id):
     xml_json = json.dumps(xml_parser)
     xml_dict = json.loads(xml_json)
 
-    xml_dict['bpmn2:definitions']['bpmn2:process']['bpmn2:userTask'][formdata.audit_user_index]["@status"] = "success"
-    xml = xmltodict.unparse(xml_dict)
-    formdata.update(process_xml=xml)
+    if result == True:
+        xml_dict['bpmn2:definitions']['bpmn2:process']['bpmn2:userTask'][formdata.audit_user_index]["@status"] = "success"
+        xml = xmltodict.unparse(xml_dict)
+        formdata.update(process_xml=xml)
 
-    userNum = len(xml_dict['bpmn2:definitions']['bpmn2:process']['bpmn2:userTask'])
-    if userNum == formdata.audit_user_index + 1:
-        formdata.update(audit_success=True)
+        userNum = len(xml_dict['bpmn2:definitions']['bpmn2:process']['bpmn2:userTask'])
+        if userNum == formdata.audit_user_index + 1:
+            formdata.update(audit_success=True)
 
-    formdata.update(audit_user_index=formdata.audit_user_index + 1)
+        formdata.update(audit_user_index=formdata.audit_user_index + 1)
+    else:
+        xml_dict['bpmn2:definitions']['bpmn2:process']['bpmn2:userTask'][formdata.audit_user_index]["@status"] = "reject"
+        xml = xmltodict.unparse(xml_dict)
+        formdata.update(process_xml=xml)
 
     return json.jsonify({})
 
