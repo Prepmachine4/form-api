@@ -24,11 +24,17 @@ def saveProcess(enterprise_id):
 
     userTaskList = xml_dict['bpmn2:definitions']['bpmn2:process']['bpmn2:userTask']
     users = []
-    for userTask in userTaskList:
-        if userTask.get("@userType") == 'assignee':
-            users += [{"type":"assignee", "_id":userTask.get("@assignee")}]
+    if(type(userTaskList) == dict):
+        if(userTaskList.get("@userType") == 'assignee'):
+            users += [{"type": "assignee", "_id": userTaskList.get("@assignee")}]
         else:
-            users += [{"type":"candidateGroups", "_id":userTask.get("@candidateGroups")}]
+            users += [{"type": "candidateGroups", "_id": userTaskList.get("@candidateGroups")}]
+    else:
+        for userTask in userTaskList:
+            if userTask.get("@userType") == 'assignee':
+                users += [{"type": "assignee", "_id": userTask.get("@assignee")}]
+            else:
+                users += [{"type": "candidateGroups", "_id": userTask.get("@candidateGroups")}]
 
     proc = Process(_id=ObjectId(),
                    enterprise_id=enterprise_id,
@@ -64,9 +70,27 @@ def getAllProc(enterprise_id):
     return json.jsonify(list_data)
 
 
+@bp_proc.route('/<process_id>', methods=['GET'])
+@jwt_required(optional=False)
+def getProcInfo(process_id):
+    """获取流程详细"""
+    proc = Process.objects(_id=process_id).first()
+
+    _id = str(proc._id)
+    enterprise_id = str(proc.enterprise_id)
+    svg = proc.svg
+    xml = proc.xml
+    name = proc.name
+    users = proc.users
+    createTime = proc.createTime
+
+    return json.jsonify({"_id": _id, "enterprise_id": enterprise_id, "svg": svg, "xml": xml,
+                       "name": name, "users": users, "createTime": createTime})
+
+
 @bp_proc.route('/<process_id>', methods=['DELETE'])
 @jwt_required(optional=False)
 def deleteProc(process_id):
-    """获取流程列表"""
+    """删除流程"""
     Process.objects(_id=process_id).delete()
     return json.jsonify({})
