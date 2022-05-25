@@ -70,7 +70,8 @@ def getNowAudit(user_id):
 
     for formdata in formData_list:
         audit_user_index = formdata.audit_user_index
-        if audit_user_index is None:
+        process_xml = formdata.process_xml
+        if process_xml is "":
             continue
         form_id = formdata.form_id
         form = Form.objects(_id = form_id).first()
