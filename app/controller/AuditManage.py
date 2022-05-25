@@ -60,7 +60,7 @@ def saveAudit(formdata_id):
     return json.jsonify({})
 
 @bp_audit.route('/list/now/<user_id>', methods=['GET'])
-@jwt_required(optional=False)
+#@jwt_required(optional=False)
 def getNowAudit(user_id):
     """获取用户当前需要进行的审批"""
     formData_list = FormData.objects(audit_success = False)
@@ -78,6 +78,7 @@ def getNowAudit(user_id):
         process = Process.objects(_id = process_id).first()
         users = process.users
         audit_user = users[audit_user_index]
+        print(audit_user)
         if (audit_user["type"] == "assignee" and audit_user["_id"] == user_id)\
            or (audit_user["type"] == "candidateGroups" and audit_user["_id"] in postIds):
             formdata_id = formdata._id
@@ -105,9 +106,11 @@ def getNowAudit(user_id):
                     "audit_user_index":audit_user_index,"audit_success":audit_success,
                     "form":{"_id":str(form_id), "name":form_name, "struct":form_struct}}
             data_user = {"_id":str(data_user_id), "email":user_email, "deptName":user_deptName}
-            if user_name == "":
+            if user_name != "":
                 data_user["name"] = user_name
+            if user_nick_name != "":
                 data_user["nick_name"] = user_nick_name
+            if user_phone != "":
                 data_user["phone"] = user_phone
             data["user"] = data_user
 
@@ -116,7 +119,7 @@ def getNowAudit(user_id):
     return json.jsonify(data_list)
 
 @bp_audit.route('/list/history/<user_id>', methods=['GET'])
-@jwt_required(optional=False)
+#@jwt_required(optional=False)
 def getHistoryAudit(user_id):
     """获取审批历史"""
     audit_list = Audit.objects(user_id=user_id)
@@ -149,9 +152,11 @@ def getHistoryAudit(user_id):
                 "audit_user_index":audit_user_index,"audit_success":audit_success,
                 "form":{"_id":str(form_id), "name":form_name, "struct":form_struct}}
         data_user = {"_id":str(form_user_id), "email":user_email, "deptName":user_deptName}
-        if user_name == "":
+        if user_name != "":
             data_user["name"] = user_name
+        if user_nick_name != "":
             data_user["nick_name"] = user_nick_name
+        if user_phone != "":
             data_user["phone"] = user_phone
         data["user"] = data_user
 
