@@ -28,6 +28,8 @@ def register():
                     role=role)
         if role == "企业":
             user.enterprise_id = user._id
+            user.name = "root"
+            user.nickname = "root"
             # 注册根部门
             _id = ObjectId()
             user.deptId = _id
