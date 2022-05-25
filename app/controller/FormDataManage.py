@@ -20,7 +20,7 @@ def fillInForm(form_id):
     user_id = form_info.get("user_id")
     data = form_info.get("data")
     process_xml = form_info.get("process_xml")
-    audit_user_index = form_info.get("audit_user_index")
+    audit_user_index = 0
     audit_success = False
 
     form_data = FormData(_id=ObjectId(),
