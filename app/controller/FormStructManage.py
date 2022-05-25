@@ -23,23 +23,20 @@ def getForm(form_id):
     end_time = form_data.end_time
     tags = form_data.tags
 
-    if end_time == "" and len(tags) == 0:
-        return json.jsonify({"_id": _id, "user_id": user_id, "is_template": is_template,
-                             "name": name, "struct": struct, "category": category,
-                             "create_time": create_time})
-    elif len(tags) == 0:
-        return json.jsonify({"_id": _id, "user_id": user_id, "is_template": is_template,
-                             "name": name, "struct": struct, "category": category,
-                             "create_time": create_time, "setting": {"end_time": end_time}})
-    elif end_time == "":
-        return json.jsonify({"_id": _id, "user_id": user_id, "is_template": is_template,
-                             "name": name, "struct": struct, "category": category,
-                             "create_time": create_time, "setting": {"tags": tags}})
-    else:
-        return json.jsonify({"_id": _id, "user_id": user_id, "is_template": is_template,
-                             "name": name, "struct": struct, "category": category,
-                             "create_time": create_time,
-                             "setting": {"end_time": end_time, "tags": tags}})
+    tmp = {"_id": _id, "user_id": user_id, "is_template": is_template,
+           "name": name, "struct": struct, "category": category,
+           "create_time": create_time}
+
+    if end_time != "" or len(tags) != 0 or category != "问卷型":
+        tmp["setting"] = {}
+        if end_time != "":
+            tmp["setting"]["end_time"] = end_time
+        if len(tags) != 0:
+            tmp["setting"]["tags"] = tags
+        if category != "问卷型":
+            tmp["setting"]["process_id"] = str(form_data.process_id)
+
+    return json.jsonify(tmp)
 
 
 @bp_form.route('/forms/<user_id>', methods=['GET'])
@@ -61,23 +58,20 @@ def getUserForms(user_id):
         end_time = form_data.end_time
         tags = form_data.tags
 
-        if end_time == "" and len(tags) == 0:
-            list_data += [{"_id": _id, "user_id": user_id, "is_template": is_template,
-                           "name": name, "struct": struct, "category": category,
-                           "create_time": create_time}]
-        elif len(tags) == 0:
-            list_data += [{"_id": _id, "user_id": user_id, "is_template": is_template,
-                           "name": name, "struct": struct, "category": category,
-                           "create_time": create_time, "setting": {"end_time": end_time}}]
-        elif end_time == "":
-            list_data += [{"_id": _id, "user_id": user_id, "is_template": is_template,
-                           "name": name, "struct": struct, "category": category,
-                           "create_time": create_time, "setting": {"tags": tags}}]
-        else:
-            list_data += [{"_id": _id, "user_id": user_id, "is_template": is_template,
-                           "name": name, "struct": struct, "category": category,
-                           "create_time": create_time,
-                           "setting": {"end_time": end_time, "tags": tags}}]
+        tmp = {"_id": _id, "user_id": user_id, "is_template": is_template,
+               "name": name, "struct": struct, "category": category,
+               "create_time": create_time}
+
+        if end_time != "" or len(tags) != 0 or category != "问卷型":
+            tmp["setting"] = {}
+            if end_time != "":
+                tmp["setting"]["end_time"] = end_time
+            if len(tags) != 0:
+                tmp["setting"]["tags"] = tags
+            if category != "问卷型":
+                tmp["setting"]["process_id"] = str(form_data.process_id)
+
+        list_data += [tmp]
 
     return json.jsonify(list_data)
 
@@ -122,6 +116,7 @@ def saveForm(user_id):
 @bp_form.route('', methods=['PUT'])
 @jwt_required(optional=False)
 def changeFormStruct():
+    '''修改用户表单结构'''
     form_info = request.get_data()
     form_info = json.loads(form_info.decode("UTF-8"))
 

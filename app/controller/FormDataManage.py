@@ -5,6 +5,7 @@ from app.model.FormData import FormData
 from app.model.User import User
 from app.model.Audit import Audit
 from app.model.Department import Department
+from app.model.Process import Process
 from flask_jwt_extended import jwt_required
 from . import bp_data
 
@@ -19,7 +20,8 @@ def fillInForm(form_id):
     create_time = form_info.get("create_time")
     user_id = form_info.get("user_id")
     data = form_info.get("data")
-    process_xml = form_info.get("process_xml")
+    process_id = Form.objects(_id=str(form_id)).first().process_id
+    process_xml = Process.objects(_id=str(process_id)).first().xml
     audit_user_index = 0
     audit_success = False
 
