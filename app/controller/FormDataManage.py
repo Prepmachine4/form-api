@@ -35,8 +35,6 @@ def fillInForm(form_id):
                          audit_success=audit_success)
     form_data.save()
 
-
-
     return json.jsonify({"_id": str(form_data._id)})
 
 
@@ -208,3 +206,17 @@ def getUserForms(user_id):
                        }]
 
     return json.jsonify(list_data)
+
+
+@bp_data.route('/<formdata_id>', methods=['PUT'])
+@jwt_required(optional=False)
+def updateFormData(formdata_id):
+    """修改表单数据"""
+    form_data = FormData.objects(_id=str(formdata_id)).first()
+
+    form_data_info = json.loads(request.get_data().decode("UTF-8"))
+    data = form_data_info.get("data")
+
+    form_data.update(data=data)
+
+    return json.jsonify({})
