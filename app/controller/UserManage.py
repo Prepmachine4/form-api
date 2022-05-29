@@ -3,6 +3,7 @@ from bson import ObjectId
 from flask import request, jsonify
 from app.model.User import User
 from app.model.Department import Department
+from app.model.Role import Role
 from flask_jwt_extended import jwt_required
 from . import bp_user, bp_sysu
 
@@ -167,3 +168,20 @@ def enterpriseLinkUser(enterprise_id):
     else:
         return jsonify({"message": "No such user!"}), 400
 
+
+@bp_sysu.route('/menu/<user_id>', methods=['GET'])
+@jwt_required(optional=False)
+def getUserMenuIds(user_id):
+    """获取用户所有角色的menuIds"""
+    user = User.objects(_id=user_id).first()
+    if user:
+        list_data = []
+        for roleId in user.roleIds:
+            role = Role.objects(_id=roleId).first()
+            list_data.extend(role.menuIds)
+        # 去重:
+        list_data = list(set(list_data))
+        return jsonify(list_data)
+
+    else:
+        return jsonify({"message": "No such user!"}), 400
