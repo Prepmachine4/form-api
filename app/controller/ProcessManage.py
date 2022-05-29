@@ -16,6 +16,7 @@ def saveProcess(enterprise_id):
     svg = proc_info.get("svg")
     xml = proc_info.get("xml")
     name = proc_info.get("name")
+    backMethod = proc_info.get("backMethod")
     createTime = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
 
     xml_parser = xmltodict.parse(xml,encoding='utf-8')
@@ -41,6 +42,7 @@ def saveProcess(enterprise_id):
                    svg=svg,
                    xml=xml,
                    name=name,
+                   backMethod=backMethod,
                    users=users,
                    createTime=createTime)
 
@@ -62,11 +64,12 @@ def getAllProc(enterprise_id):
         svg = proc.svg
         xml = proc.xml
         name = proc.name
+        backMethod = proc.backMethod
         users = proc.users
         createTime = proc.createTime
 
         list_data += [{"_id": _id, "enterprise_id": enterprise_id, "svg": svg, "xml": xml,
-                       "name": name, "users": users, "createTime": createTime}]
+                       "backMethod":backMethod, "name": name, "users": users, "createTime": createTime}]
     return json.jsonify(list_data)
 
 
@@ -81,11 +84,12 @@ def getProcInfo(process_id):
     svg = proc.svg
     xml = proc.xml
     name = proc.name
+    backMethod = proc.backMethod
     users = proc.users
     createTime = proc.createTime
 
     return json.jsonify({"_id": _id, "enterprise_id": enterprise_id, "svg": svg, "xml": xml,
-                       "name": name, "users": users, "createTime": createTime})
+                         "backMethod":backMethod, "name": name, "users": users, "createTime": createTime})
 
 
 @bp_proc.route('/<process_id>', methods=['DELETE'])
