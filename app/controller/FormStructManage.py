@@ -7,6 +7,49 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 from . import bp_form
 
 
+@bp_form.route('/forms/list', methods=['GET'])
+@jwt_required(optional=False)
+def getAllForms():
+    """获取全局表单"""
+    form_data_list = Form.objects.all()
+    list_data = []
+
+    for form_data in form_data_list:
+        _id = str(form_data._id)
+        user_id = str(form_data.user_id)
+        is_template = form_data.is_template
+        name = form_data.name
+        struct = form_data.struct
+        category = form_data.category
+        create_time = form_data.create_time
+        end_time = form_data.end_time
+        tags = form_data.tags
+
+        tmp = {"_id": _id, "user_id": user_id, "is_template": is_template,
+               "name": name, "struct": struct, "category": category,
+               "create_time": create_time}
+
+        if end_time != "" or len(tags) != 0 or category == "业务型":
+            tmp["setting"] = {}
+            if end_time != "":
+                tmp["setting"]["end_time"] = end_time
+            if len(tags) != 0:
+                tmp["setting"]["tags"] = tags
+            if category == "业务型":
+                tmp["setting"]["process_id"] = str(form_data.process_id)
+            else:
+                tmp["setting"]["user_range"] = form_data.user_range
+                tmp["setting"]["password"] = form_data.password
+                tmp["setting"]["repeat_edit"] = form_data.repeat_edit
+                tmp["setting"]["enable_search"] = form_data.enable_search
+                tmp["setting"]["look_result"] = form_data.look_result
+                tmp["setting"]["look_Analysis"] = form_data.look_Analysis
+
+        list_data += [tmp]
+
+    return json.jsonify(list_data)
+
+
 @bp_form.route('/<form_id>', methods=['GET'])
 @jwt_required(optional=False)
 def getForm(form_id):
@@ -27,14 +70,21 @@ def getForm(form_id):
            "name": name, "struct": struct, "category": category,
            "create_time": create_time}
 
-    if end_time != "" or len(tags) != 0 or category != "问卷型":
+    if end_time != "" or len(tags) != 0 or category == "业务型":
         tmp["setting"] = {}
         if end_time != "":
             tmp["setting"]["end_time"] = end_time
         if len(tags) != 0:
             tmp["setting"]["tags"] = tags
-        if category != "问卷型":
+        if category == "业务型":
             tmp["setting"]["process_id"] = str(form_data.process_id)
+        else:
+            tmp["setting"]["user_range"] = form_data.user_range
+            tmp["setting"]["password"] = form_data.password
+            tmp["setting"]["repeat_edit"] = form_data.repeat_edit
+            tmp["setting"]["enable_search"] = form_data.enable_search
+            tmp["setting"]["look_result"] = form_data.look_result
+            tmp["setting"]["look_Analysis"] = form_data.look_Analysis
 
     return json.jsonify(tmp)
 
@@ -43,7 +93,7 @@ def getForm(form_id):
 @jwt_required(optional=False)
 def getUserForms(user_id):
     """获取用户所有表单的信息"""
-    print(get_jwt_identity())  # 获取token里的用户email
+    #print(get_jwt_identity())  # 获取token里的用户email
 
     form_data_list = Form.objects(user_id=user_id)
     list_data = []
@@ -62,14 +112,21 @@ def getUserForms(user_id):
                "name": name, "struct": struct, "category": category,
                "create_time": create_time}
 
-        if end_time != "" or len(tags) != 0 or category != "问卷型":
+        if end_time != "" or len(tags) != 0 or category == "业务型":
             tmp["setting"] = {}
             if end_time != "":
                 tmp["setting"]["end_time"] = end_time
             if len(tags) != 0:
                 tmp["setting"]["tags"] = tags
-            if category != "问卷型":
+            if category == "业务型":
                 tmp["setting"]["process_id"] = str(form_data.process_id)
+            else:
+                tmp["setting"]["user_range"] = form_data.user_range
+                tmp["setting"]["password"] = form_data.password
+                tmp["setting"]["repeat_edit"] = form_data.repeat_edit
+                tmp["setting"]["enable_search"] = form_data.enable_search
+                tmp["setting"]["look_result"] = form_data.look_result
+                tmp["setting"]["look_Analysis"] = form_data.look_Analysis
 
         list_data += [tmp]
 
@@ -106,7 +163,6 @@ def saveForm(user_id):
                      name=name,
                      struct=struct,
                      create_time=create_time,
-                     end_time="",
                      is_template=is_template)
     user_form.save()
 
