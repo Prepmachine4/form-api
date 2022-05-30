@@ -43,7 +43,7 @@ def getAllForms():
                 tmp["setting"]["repeat_edit"] = form_data.repeat_edit
                 tmp["setting"]["enable_search"] = form_data.enable_search
                 tmp["setting"]["look_result"] = form_data.look_result
-                tmp["setting"]["look_Analysis"] = form_data.look_Analysis
+                tmp["setting"]["look_analysis"] = form_data.look_analysis
 
         list_data += [tmp]
 
@@ -84,7 +84,7 @@ def getForm(form_id):
             tmp["setting"]["repeat_edit"] = form_data.repeat_edit
             tmp["setting"]["enable_search"] = form_data.enable_search
             tmp["setting"]["look_result"] = form_data.look_result
-            tmp["setting"]["look_Analysis"] = form_data.look_Analysis
+            tmp["setting"]["look_analysis"] = form_data.look_analysis
 
     return json.jsonify(tmp)
 
@@ -126,7 +126,7 @@ def getUserForms(user_id):
                 tmp["setting"]["repeat_edit"] = form_data.repeat_edit
                 tmp["setting"]["enable_search"] = form_data.enable_search
                 tmp["setting"]["look_result"] = form_data.look_result
-                tmp["setting"]["look_Analysis"] = form_data.look_Analysis
+                tmp["setting"]["look_analysis"] = form_data.look_analysis
 
         list_data += [tmp]
 
