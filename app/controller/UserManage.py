@@ -105,7 +105,7 @@ def getUserList(enterprise_id):
                 "deptName": department.deptName,
                 "parentId": department.parentId,
                 "orderNum": department.orderNum,
-                 "leader_id": str(department.leader_id),
+                "leader_id": str(department.leader_id),
                 "phone": department.phone,
                 "createTime": department.createTime}
 
@@ -162,7 +162,7 @@ def enterpriseLinkUser(enterprise_id):
 
     user = User.objects(email=email).first()
     if user:
-        user.update(nickname=nickname)   # 若为空？
+        user.update(nickname=nickname)  # 若为空？
         user.update(deptId=deptId, postIds=postIds, roleIds=roleIds, enterprise_id=enterprise_id)
         return jsonify({})
     else:

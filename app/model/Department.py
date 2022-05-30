@@ -11,3 +11,4 @@ class Department(db.Document):
     leader_id = db.ObjectIdField(required=True)  # 负责人id
     phone = db.StringField(required=True)  # 部门电话
     createTime = db.StringField(required=True)  # 创建时间
+    roleIds = db.ListField()  # 部门的角色

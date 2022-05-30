@@ -22,6 +22,7 @@ def getAllDepartments(enterprise_id):
         leader_id = department.leader_id
         phone = department.phone
         createTime = department.createTime
+        roleIds = department.roleIds
 
         leader = User.objects(_id=str(leader_id)).first()
         leader_name = leader.name
@@ -32,6 +33,7 @@ def getAllDepartments(enterprise_id):
                        "orderNum": orderNum,
                        "leader_id": str(leader_id),
                        "phone": phone,
+                       "roleIds": roleIds,
                        "createTime": createTime,
                        "leader_name": leader_name
                        }]
@@ -50,6 +52,7 @@ def addDepartment(enterprise_id):
     orderNum = dept_info.get("orderNum")  # string
     leader_id = dept_info.get("leader_id")
     phone = dept_info.get("phone")
+    roleIds = dept_info.get("roleIds")
     createTime = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
 
     department = Department(_id=_id,
@@ -59,6 +62,7 @@ def addDepartment(enterprise_id):
                             orderNum=int(orderNum),
                             leader_id=leader_id,
                             phone=phone,
+                            roleIds=roleIds,
                             createTime=createTime)
     department.save()
 
@@ -115,6 +119,7 @@ def getDepartmentInfomation(dept_id):
     orderNum = department.orderNum
     leader_id = department.leader_id
     phone = department.phone
+    roleIds = department.roleIds
     createTime = department.createTime
 
     return json.jsonify({"_id": dept_id,
@@ -123,6 +128,7 @@ def getDepartmentInfomation(dept_id):
                          "orderNum": orderNum,
                          "leader_id": str(leader_id),
                          "phone": phone,
+                         "roleIds": roleIds,
                          "createTime": createTime
                          })
 
