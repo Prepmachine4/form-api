@@ -51,7 +51,6 @@ def getAllForms():
 
 
 @bp_form.route('/<form_id>', methods=['GET'])
-@jwt_required(optional=False)
 def getForm(form_id):
     """获取某个表单的信息"""
     form_data = Form.objects(_id=form_id).first()
