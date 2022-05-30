@@ -117,7 +117,7 @@ def getUserList(enterprise_id):
 
 
 @bp_sysu.route('/<enterprise_id>', methods=['POST'])
-# @jwt_required(optional=False)
+@jwt_required(optional=False)
 def enterpriseAddUser(enterprise_id):
     """企业添加用户"""
     user_info = request.get_data()
@@ -176,7 +176,12 @@ def getUserMenuIds(user_id):
     user = User.objects(_id=user_id).first()
     if user:
         list_data = []
-        for roleId in user.roleIds:
+        roleIds = user.roleIds
+        # 添加所属部门拥有的roleIds
+        dept = Department.objects(_id=user.deptId).first()
+        roleIds.extend(dept.roleIds)
+        # 获取所有role的menuId
+        for roleId in roleIds:
             role = Role.objects(_id=roleId).first()
             list_data.extend(role.menuIds)
         # 去重:
