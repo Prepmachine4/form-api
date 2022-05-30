@@ -12,3 +12,5 @@ class FormData(db.Document):
     process_xml = db.StringField(required=False)    # 当前进程 xml
     audit_user_index = db.IntField(required=False)  # 当前流转到的人或部门
     audit_success = db.BooleanField(required=False, default=False)  # 审批是否完成
+    abort = db.BooleanField(default=False)   # 是否终止
+

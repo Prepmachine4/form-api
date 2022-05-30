@@ -29,6 +29,7 @@ def fillInForm(form_id):
 
     audit_user_index = 0
     audit_success = False
+    abort = False
 
     form_data = FormData(_id=ObjectId(),
                          create_time=create_time,
@@ -37,7 +38,8 @@ def fillInForm(form_id):
                          data=data,
                          process_xml=process_xml,
                          audit_user_index=audit_user_index,
-                         audit_success=audit_success)
+                         audit_success=audit_success,
+                         abort=abort)
     form_data.save()
 
     return json.jsonify({"_id": str(form_data._id)})
@@ -76,6 +78,7 @@ def getAllFormData(form_id):
         process_xml = form_data.process_xml
         audit_user_index = form_data.audit_user_index
         audit_success = form_data.audit_success
+        abort=form_data.abort
 
         audit_list = Audit.objects(formdata_id=str(form_data._id))
         audit_list_data = []
@@ -110,6 +113,7 @@ def getAllFormData(form_id):
                        "process_xml": process_xml,
                        "audit_user_index": audit_user_index,
                        "audit_success": audit_success,
+                       "abort": abort,
                        "user": user_dict,
                        "audit_history": audit_list_data
                        }]
@@ -134,6 +138,7 @@ def getUserForms(user_id):
         process_xml = form_data.process_xml
         audit_user_index = form_data.audit_user_index
         audit_success = form_data.audit_success
+        abort = form_data.abort
 
         # 查询 form 集合
         form_id = str(form._id)
@@ -198,6 +203,7 @@ def getUserForms(user_id):
                        "process_xml": process_xml,
                        "audit_user_index": audit_user_index,
                        "audit_success": audit_success,
+                       "abort": abort,
                        "form": {"_id": form_id,
                                 "is_template": is_template,
                                 "name": form_name,
@@ -221,7 +227,9 @@ def updateFormData(formdata_id):
 
     form_data_info = json.loads(request.get_data().decode("UTF-8"))
     data = form_data_info.get("data")
+    abort = form_data_info.get("abort")
 
     form_data.update(data=data)
+    form_data.update(abort=abort)
 
     return json.jsonify({})
