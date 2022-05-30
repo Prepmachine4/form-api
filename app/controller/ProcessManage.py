@@ -1,5 +1,6 @@
 from flask import request, json
 from app.model.Process import Process
+from app.model.FormData import FormData
 from bson import ObjectId
 import time
 import xmltodict
@@ -97,4 +98,13 @@ def getProcInfo(process_id):
 def deleteProc(process_id):
     """删除流程"""
     Process.objects(_id=process_id).delete()
+    return json.jsonify({})
+
+
+@bp_proc.route('/<formdata_id>', methods=['PUT'])
+@jwt_required(optional=False)
+def abortProc(formdata_id):
+    """终止流程"""
+    form_data = FormData.objects(_id=formdata_id).first()
+    form_data.update(abort=False)
     return json.jsonify({})
