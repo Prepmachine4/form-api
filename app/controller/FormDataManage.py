@@ -11,7 +11,6 @@ from . import bp_data
 
 
 @bp_data.route('/<form_id>', methods=['POST'])
-@jwt_required(optional=False)
 def fillInForm(form_id):
     """填写表单"""
     form_info = request.get_data()
