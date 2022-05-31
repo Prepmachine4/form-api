@@ -69,7 +69,7 @@ def addDepartment(enterprise_id):
     return json.jsonify({"_id": str(_id)})
 
 
-@bp_dept.route('/', methods=['PUT'])
+@bp_dept.route('', methods=['PUT'])
 @jwt_required(optional=False)
 def updateDepartment():
     """修改部门"""
