@@ -81,6 +81,7 @@ def updateDepartment():
     orderNum = dept_info.get("orderNum")
     leader_id = dept_info.get("leader_id")
     phone = dept_info.get("phone")
+    roleIds = dept_info.get("roleIds")
 
     department = Department.objects(_id=_id).first()
 
@@ -89,6 +90,7 @@ def updateDepartment():
     department.update(orderNum=int(orderNum))
     department.update(leader_id=leader_id)
     department.update(phone=phone)
+    department.update(roleIds=roleIds)
 
     return json.jsonify({})
 
