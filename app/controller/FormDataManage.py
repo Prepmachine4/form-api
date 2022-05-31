@@ -19,6 +19,8 @@ def fillInForm(form_id):
 
     create_time = form_info.get("create_time")
     user_id = form_info.get("user_id")
+    if not user_id:  # user_id为空，数据库设置为None
+        user_id = None
     data = form_info.get("data")
 
     process_xml = ''
@@ -78,7 +80,7 @@ def getAllFormData(form_id):
         process_xml = form_data.process_xml
         audit_user_index = form_data.audit_user_index
         audit_success = form_data.audit_success
-        abort=form_data.abort
+        abort = form_data.abort
 
         audit_list = Audit.objects(formdata_id=str(form_data._id))
         audit_list_data = []
