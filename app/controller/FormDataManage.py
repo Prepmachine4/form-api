@@ -56,17 +56,19 @@ def getAllFormData(form_id):
     for form_data in form_data_list:
         user_id = form_data.user_id  # type->ObjectId
 
-        user = User.objects(_id=str(user_id)).first()
-        user_id = str(user_id)
-        email = user.email
-        enterprise_id = str(user.enterprise_id)
-        name = user.name
-        nick_name = user.nickname
-        phone = user.phone
-        deptName = Department.objects(_id=str(user.deptId)).first().deptName
+        user_dict = {}
+        if user_id:  # 当user_id不为空
+            user = User.objects(_id=str(user_id)).first()
+            user_id = str(user_id)
+            email = user.email
+            enterprise_id = str(user.enterprise_id)
+            name = user.name
+            nick_name = user.nickname
+            phone = user.phone
+            deptName = Department.objects(_id=str(user.deptId)).first().deptName
 
-        user_dict = {"_id": user_id, "email": email, "enterprise_id": enterprise_id, "name": name,
-                     "nick_name": nick_name, "phone": phone, "deptName": deptName}
+            user_dict = {"_id": user_id, "email": email, "enterprise_id": enterprise_id, "name": name,
+                         "nick_name": nick_name, "phone": phone, "deptName": deptName}
 
         # # 清除字典中的空项
         # for k in list(user_dict.keys()):
