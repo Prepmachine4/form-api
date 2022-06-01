@@ -22,9 +22,24 @@ def saveFormSetting(form_id):
     look_analysis = form_info.get("look_analysis")
 
     form = Form.objects(_id=form_id).first()
-    form.update(end_time=end_time, tags=tags, process_id=process_id, user_range=user_range,
-                password=password, repeat_edit=repeat_edit, enable_search=enable_search,
-                look_result=look_result, look_analysis=look_analysis)
+    if end_time != None:
+        form.update(end_time=end_time)
+    if tags != None:
+        form.update(tags=tags)
+    if process_id != None:
+        form.update(process_id=process_id)
+    if user_range != None:
+        form.update(user_range=user_range)     
+    if password != None:
+        form.update(password=password)   
+    if repeat_edit != None:
+        form.update(repeat_edit=repeat_edit)     
+    if enable_search != None:
+        form.update(enable_search=enable_search)      
+    if look_result != None:
+        form.update(look_result=look_result)  
+    if look_analysis != None:
+        form.update(look_analysis=look_analysis)  
 
     return json.jsonify({})
 
@@ -66,8 +81,23 @@ def updateFormSetting(form_id):
     look_analysis = form_info.get("look_analysis")
 
     form = Form.objects(_id=form_id).first()
-    form.update(end_time=end_time, tags=tags, process_id=process_id, user_range=user_range,
-                password=password, repeat_edit=repeat_edit, enable_search=enable_search,
-                look_result=look_result, look_analysis=look_analysis)
+    if end_time != None:
+        form.update(end_time=end_time)
+    if tags != None:
+        form.update(tags=tags)
+    if process_id != None:
+        form.update(process_id=process_id)
+    if user_range != None:
+        form.update(user_range=user_range)     
+    if password != None:
+        form.update(password=password)   
+    if repeat_edit != None:
+        form.update(repeat_edit=repeat_edit)     
+    if enable_search != None:
+        form.update(enable_search=enable_search)      
+    if look_result != None:
+        form.update(look_result=look_result)  
+    if look_analysis != None:
+        form.update(look_analysis=look_analysis)  
 
     return json.jsonify({})

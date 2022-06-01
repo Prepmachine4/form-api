@@ -22,7 +22,7 @@ class Form(db.Document):
     process_id = db.ObjectIdField(required=False)  # 流程id
     user_range = db.IntField(choices=(0, 1, 2))  # 填写用户类型  0 所有人 1 已注册用户 2 需要秘钥
     password = db.StringField(default="")  # 密钥
-    repeat_edit = db.BooleanField()  # 是否可重复填写
-    enable_search = db.BooleanField()  # 是否全局搜索
-    look_result = db.BooleanField()  # 是否可查看别人填写结果
-    look_analysis = db.BooleanField()  # 是否可查看汇总结果
+    repeat_edit = db.BooleanField(default=False)  # 是否可重复填写
+    enable_search = db.BooleanField(default=False)  # 是否全局搜索
+    look_result = db.BooleanField(default=False)  # 是否可查看别人填写结果
+    look_analysis = db.BooleanField(default=False)  # 是否可查看汇总结果
