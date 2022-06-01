@@ -29,17 +29,17 @@ def saveFormSetting(form_id):
     if process_id != None:
         form.update(process_id=process_id)
     if user_range != None:
-        form.update(user_range=user_range)     
+        form.update(user_range=user_range)
     if password != None:
-        form.update(password=password)   
+        form.update(password=password)
     if repeat_edit != None:
-        form.update(repeat_edit=repeat_edit)     
+        form.update(repeat_edit=repeat_edit)
     if enable_search != None:
-        form.update(enable_search=enable_search)      
+        form.update(enable_search=enable_search)
     if look_result != None:
-        form.update(look_result=look_result)  
+        form.update(look_result=look_result)
     if look_analysis != None:
-        form.update(look_analysis=look_analysis)  
+        form.update(look_analysis=look_analysis)
 
     return json.jsonify({})
 
@@ -59,9 +59,13 @@ def getFormSetting(form_id):
     look_result = form.look_result
     look_analysis = form.look_analysis
 
-    return json.jsonify({"end_time": end_time, "tags": tags, "process_id": str(process_id),
-                         "user_range": user_range, "password": password, "repeat_edit": repeat_edit,
-                         "enable_search": enable_search, "look_result": look_result, "look_analysis": look_analysis})
+    if form.category == '问卷型':
+        return json.jsonify({"end_time": end_time, "tags": tags,
+                             "user_range": user_range, "password": password, "repeat_edit": repeat_edit,
+                             "enable_search": enable_search, "look_result": look_result,
+                             "look_analysis": look_analysis})
+    else:
+        return json.jsonify({"tags": tags, "process_id": str(process_id)})
 
 
 @bp_form.route('/setting/<form_id>', methods=['PUT'])
@@ -88,16 +92,16 @@ def updateFormSetting(form_id):
     if process_id != None:
         form.update(process_id=process_id)
     if user_range != None:
-        form.update(user_range=user_range)     
+        form.update(user_range=user_range)
     if password != None:
-        form.update(password=password)   
+        form.update(password=password)
     if repeat_edit != None:
-        form.update(repeat_edit=repeat_edit)     
+        form.update(repeat_edit=repeat_edit)
     if enable_search != None:
-        form.update(enable_search=enable_search)      
+        form.update(enable_search=enable_search)
     if look_result != None:
-        form.update(look_result=look_result)  
+        form.update(look_result=look_result)
     if look_analysis != None:
-        form.update(look_analysis=look_analysis)  
+        form.update(look_analysis=look_analysis)
 
     return json.jsonify({})
