@@ -15,6 +15,10 @@ def getAllForms():
     list_data = []
 
     for form_data in form_data_list:
+        enable_search = form_data.enable_search
+        if enable_search == False:  #该表单不允许被全局搜索到
+            continue
+
         _id = str(form_data._id)
         user_id = str(form_data.user_id)
         is_template = form_data.is_template
