@@ -79,9 +79,8 @@ def saveAudit(formdata_id):
 #@jwt_required(optional=False)
 def getNowAudit(user_id):
     """获取用户当前需要进行的审批"""
-    formData_list = FormData.objects(audit_success = False)
+    formData_list = FormData.objects(audit_success = False, abort = False)
     postIds = User.objects(_id=user_id).first().postIds
-    audit_forms = []
     data_list=[]
 
     for formdata in formData_list:
