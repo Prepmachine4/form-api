@@ -47,6 +47,10 @@ def saveAudit(formdata_id):
     xml_json = json.dumps(xml_parser)
     xml_dict = json.loads(xml_json)
 
+    form_id = formdata.form_id
+    process_id = Form.objects(_id=form_id).first().process_id
+    backMethod = Process.objects(_id=process_id).first().backMethod #是否回退到第一步
+
     if result == True:
         xml_dict['bpmn2:definitions']['bpmn2:process']['bpmn2:userTask'][formdata.audit_user_index]["@status"] = "success"
         xml = xmltodict.unparse(xml_dict)
@@ -58,8 +62,15 @@ def saveAudit(formdata_id):
 
         formdata.update(audit_user_index=formdata.audit_user_index + 1)
     else:
-        xml_dict['bpmn2:definitions']['bpmn2:process']['bpmn2:userTask'][formdata.audit_user_index]["@status"] = "reject"
-        xml = xmltodict.unparse(xml_dict)
+        if backMethod == 0: #回退一步
+            xml_dict['bpmn2:definitions']['bpmn2:process']['bpmn2:userTask'][formdata.audit_user_index]["@status"] = "reject"
+            xml = xmltodict.unparse(xml_dict)
+        else:   #回退到从头开始
+            for i in range(formdata.audit_user_index+1):
+                xml_dict['bpmn2:definitions']['bpmn2:process']['bpmn2:userTask'][i]["@status"] = "reject"
+            xml = xmltodict.unparse(xml_dict)
+            formdata.update(audit_user_index=0)
+
         formdata.update(process_xml=xml)
 
     return json.jsonify({})
