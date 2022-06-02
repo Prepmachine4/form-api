@@ -1,4 +1,4 @@
-import json
+import json, xlrd
 from bson import ObjectId
 from flask import request, jsonify
 from app.model.User import User
@@ -65,19 +65,25 @@ def profile(user_id):
 @jwt_required(optional=False)
 def getUserInfo(user_id):
     """查询用户详细信息"""
-    print(type(user_id))
     user = User.objects(_id=user_id).first()
 
     if user:
-        return jsonify({"_id": str(user._id),
-                        "email": user.email,
-                        "enterprise_id": str(user.enterprise_id),
-                        "name": user.name,
-                        "nick_name": user.nickname,
-                        "phone": user.phone,
-                        "deptId": str(user.deptId),
-                        "postIds": user.postIds,
-                        "roleIds": user.roleIds})
+        if user.role == "个人":
+            return jsonify({"_id": str(user._id),
+                            "email": user.email,
+                            "name": user.name,
+                            "nick_name": user.nickname,
+                            "phone": user.phone})
+        else:
+            return jsonify({"_id": str(user._id),
+                            "email": user.email,
+                            "enterprise_id": str(user.enterprise_id),
+                            "name": user.name,
+                            "nick_name": user.nickname,
+                            "phone": user.phone,
+                            "deptId": str(user.deptId),
+                            "postIds": user.postIds,
+                            "roleIds": user.roleIds})
     else:
         return jsonify({"message": "no such user"}), 400
 
@@ -190,3 +196,32 @@ def getUserMenuIds(user_id):
 
     else:
         return jsonify({"message": "No such user!"}), 400
+
+
+@bp_sysu.route('/batch/<enterprise_id>', methods=['POST'])
+@jwt_required(optional=False)
+def setUserDepart(enterprise_id):
+    """批量导入，设置企业全体用户的部门id为根部门id"""
+    excel = request.files.get('file')
+    file = excel.stream.read()
+    data = xlrd.open_workbook(file_contents=file).sheet_by_name("Sheet1")
+    Did = User.objects(enterprise_id=enterprise_id, name="root").first().deptId  # 根部门id
+    print(data)
+    nrows = data.nrows   # 行数
+    for i in range(1, nrows):
+        email = data.cell(i, 0).value
+        password = str(data.cell(i, 1).value)
+        name = data.cell(i, 2).value
+        nickname = data.cell(i, 3).value
+        phone = str(data.cell(i, 4).value)
+        user = User(_id=ObjectId(),
+                    email=email,
+                    password=password,
+                    name=name,
+                    nickname=nickname,
+                    phone=phone,
+                    role="企业",
+                    deptId=Did,
+                    enterprise_id=enterprise_id)
+        user.save()
+    return jsonify()
