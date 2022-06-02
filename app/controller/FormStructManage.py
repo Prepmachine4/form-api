@@ -3,6 +3,7 @@ import flask
 from bson import ObjectId
 from app.model.Form import Form
 from app.model.FormData import FormData
+from app.model.Audit import Audit
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from . import bp_form
 
@@ -140,10 +141,18 @@ def getUserForms(user_id):
 @jwt_required(optional=False)
 def deleteForm(form_id):
     """删除某个表单结构"""
-    Form.objects(_id=form_id).delete()
+
+    # 删除相应的审批
+    for formdata in FormData.objects(form_id=form_id):
+        formdata_id = formdata._id
+        Audit.objects(formdata_id=formdata_id).delete()
 
     # 删除填写的数据
     FormData.objects(form_id=form_id).delete()
+
+    # 删除表单结构
+    Form.objects(_id=form_id).delete()
+
     return json.jsonify({})
 
 
