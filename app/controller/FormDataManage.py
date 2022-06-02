@@ -110,6 +110,14 @@ def getAllFormData(form_id):
                 "user_name": audit_user_name
             }]
 
+        # audit_list_data根据createTime从小到大排序
+        sorted_audit_list_data = sorted(audit_list_data, key=lambda k: k.get('createTime'), reverse=False)
+        # for i in audit_list_data:
+        #     print(i['createTime'])
+        #
+        # for i in sorted_audit_list_data:
+        #     print(i['createTime'])
+
         list_data += [{"_id": str(form_data._id),
                        "create_time": create_time,
                        "data": data,
@@ -118,7 +126,7 @@ def getAllFormData(form_id):
                        "audit_success": audit_success,
                        "abort": abort,
                        "user": user_dict,
-                       "audit_history": audit_list_data
+                       "audit_history": sorted_audit_list_data
                        }]
 
     return json.jsonify(list_data)
@@ -196,6 +204,9 @@ def getUserForms(user_id):
                 "user_name": audit_user_name
             }]
 
+        # audit_list_data根据createTime从小到大排序
+        sorted_audit_list_data = sorted(audit_list_data, key=lambda k: k.get('createTime'), reverse=False)
+
         setting_dict = {"end_time": end_time, "tags": tags, "process_id": process_id}
         user_dict = {"_id": form_user_id, "email": email, "enterprise_id": enterprise_id, "name": user_name,
                      "nick_name": nick_name, "phone": phone}
@@ -216,7 +227,7 @@ def getUserForms(user_id):
                                 "setting": setting_dict,
                                 "user": user_dict
                                 },
-                       "audit_history": audit_list_data
+                       "audit_history": sorted_audit_list_data
                        }]
 
     return json.jsonify(list_data)
