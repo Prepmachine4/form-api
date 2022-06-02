@@ -64,22 +64,24 @@ def getAllFormData(form_id):
     list_data = []  # 存放查找内容
 
     for form_data in form_data_list:
-        user_id = str(form_data.user_id)  # type->ObjectId
+        user_id = form_data.user_id  # type->ObjectId
         user_dict = {}
         if user_id:  # 当user_id不为空
             user = User.objects(_id=user_id).first()
             email = user.email
-            enterprise_id = str(user.enterprise_id)
-            if not enterprise_id:
+            enterprise_id = user.enterprise_id
+            if not enterprise_id:   # 如果为空
                 enterprise_id = ''
+            else:
+                enterprise_id = str(enterprise_id)
             name = user.name
             nick_name = user.nickname
             phone = user.phone
-            if (user.deptId):
+            if user.deptId:
                 deptName = Department.objects(_id=str(user.deptId)).first().deptName
             else:
                 deptName = ''
-            user_dict = {"_id": user_id, "email": email, "enterprise_id": enterprise_id, "name": name,
+            user_dict = {"_id": str(user_id), "email": email, "enterprise_id": enterprise_id, "name": name,
                          "nick_name": nick_name, "phone": phone, "deptName": deptName}
 
         create_time = form_data.create_time
