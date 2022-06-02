@@ -16,10 +16,20 @@ def fillInForm(form_id):
     form_info = request.get_data()
     form_info = json.loads(form_info.decode("UTF-8"))
 
-    create_time = form_info.get("create_time")
-    user_id = form_info.get("user_id")
+    user_id = form_info.get("user_id")  # 为空表示匿名填写
+
+    # 如果用户不是匿名填写且不可重复填写
+    if user_id and Form.objects(_id=str(form_id)).first().repeat_edit is False:
+        form_data_list = FormData.objects(form_id=str(form_id))
+        for form_data in form_data_list:
+            # 如果该用户填写过
+            if str(form_data.user_id) == str(user_id):
+                return json.jsonify({"message": "You have already filled in!"}), 400
+
     if not user_id:  # user_id为空，数据库设置为None
         user_id = None
+
+    create_time = form_info.get("create_time")
     data = form_info.get("data")
 
     process_xml = ''

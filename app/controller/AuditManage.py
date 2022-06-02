@@ -49,10 +49,11 @@ def saveAudit(formdata_id):
 
     form_id = formdata.form_id
     process_id = Form.objects(_id=form_id).first().process_id
-    backMethod = Process.objects(_id=process_id).first().backMethod #是否回退到第一步
+    backMethod = Process.objects(_id=process_id).first().backMethod  # 是否回退到第一步
 
     if result == True:
-        xml_dict['bpmn2:definitions']['bpmn2:process']['bpmn2:userTask'][formdata.audit_user_index]["@status"] = "success"
+        xml_dict['bpmn2:definitions']['bpmn2:process']['bpmn2:userTask'][formdata.audit_user_index][
+            "@status"] = "success"
         xml = xmltodict.unparse(xml_dict)
         formdata.update(process_xml=xml)
 
@@ -62,11 +63,12 @@ def saveAudit(formdata_id):
 
         formdata.update(audit_user_index=formdata.audit_user_index + 1)
     else:
-        if backMethod == 0: #回退一步
-            xml_dict['bpmn2:definitions']['bpmn2:process']['bpmn2:userTask'][formdata.audit_user_index]["@status"] = "reject"
+        if backMethod == 0:  # 回退一步
+            xml_dict['bpmn2:definitions']['bpmn2:process']['bpmn2:userTask'][formdata.audit_user_index][
+                "@status"] = "reject"
             xml = xmltodict.unparse(xml_dict)
-        else:   #回退到从头开始
-            for i in range(formdata.audit_user_index+1):
+        else:  # 回退到从头开始
+            for i in range(formdata.audit_user_index + 1):
                 xml_dict['bpmn2:definitions']['bpmn2:process']['bpmn2:userTask'][i]["@status"] = "reject"
             xml = xmltodict.unparse(xml_dict)
             formdata.update(audit_user_index=0)
@@ -75,28 +77,29 @@ def saveAudit(formdata_id):
 
     return json.jsonify({})
 
+
 @bp_audit.route('/list/now/<user_id>', methods=['GET'])
-#@jwt_required(optional=False)
+@jwt_required(optional=False)
 def getNowAudit(user_id):
     """获取用户当前需要进行的审批"""
-    formData_list = FormData.objects(audit_success = False, abort = False)
+    formData_list = FormData.objects(audit_success=False, abort=False)
     postIds = User.objects(_id=user_id).first().postIds
-    data_list=[]
+    data_list = []
 
     for formdata in formData_list:
         audit_user_index = formdata.audit_user_index
         process_xml = formdata.process_xml
-        if process_xml is "":
+        if process_xml == "":
             continue
         form_id = formdata.form_id
-        form = Form.objects(_id = form_id).first()
+        form = Form.objects(_id=form_id).first()
         process_id = form.process_id
-        process = Process.objects(_id = process_id).first()
+        process = Process.objects(_id=process_id).first()
         users = process.users
         audit_user = users[audit_user_index]
         print(audit_user)
-        if (audit_user["type"] == "assignee" and audit_user["_id"] == user_id)\
-           or (audit_user["type"] == "candidateGroups" and audit_user["_id"] in postIds):
+        if (audit_user["type"] == "assignee" and audit_user["_id"] == user_id) \
+                or (audit_user["type"] == "candidateGroups" and audit_user["_id"] in postIds):
             formdata_id = formdata._id
             create_time = formdata.create_time
             data = formdata.data
@@ -118,10 +121,10 @@ def getNowAudit(user_id):
             user_dept = Department.objects(_id=user_deptId).first()
             user_deptName = user_dept.deptName
 
-            data = {"_id":str(formdata_id), "create_time":create_time, "data":data,"process_xml":process_xml, 
-                    "audit_user_index":audit_user_index,"audit_success":audit_success,
-                    "form":{"_id":str(form_id), "name":form_name, "struct":form_struct}}
-            data_user = {"_id":str(data_user_id), "email":user_email, "deptName":user_deptName}
+            data = {"_id": str(formdata_id), "create_time": create_time, "data": data, "process_xml": process_xml,
+                    "audit_user_index": audit_user_index, "audit_success": audit_success,
+                    "form": {"_id": str(form_id), "name": form_name, "struct": form_struct}}
+            data_user = {"_id": str(data_user_id), "email": user_email, "deptName": user_deptName}
             if user_name != "":
                 data_user["name"] = user_name
             if user_nick_name != "":
@@ -130,16 +133,17 @@ def getNowAudit(user_id):
                 data_user["phone"] = user_phone
             data["user"] = data_user
 
-            data_list += [data]            
+            data_list += [data]
 
     return json.jsonify(data_list)
 
+
 @bp_audit.route('/list/history/<user_id>', methods=['GET'])
-#@jwt_required(optional=False)
+@jwt_required(optional=False)
 def getHistoryAudit(user_id):
     """获取审批历史"""
     audit_list = Audit.objects(user_id=user_id)
-    data_list=[]
+    data_list = []
     for audit in audit_list:
         formdata_id = audit.formdata_id
         formdata = FormData.objects(_id=formdata_id).first()
@@ -164,10 +168,10 @@ def getHistoryAudit(user_id):
         user_dept = Department.objects(_id=user_deptId).first()
         user_deptName = user_dept.deptName
 
-        data = {"_id":str(formdata_id), "create_time":create_time, "data":data,"process_xml":process_xml, 
-                "audit_user_index":audit_user_index,"audit_success":audit_success,
-                "form":{"_id":str(form_id), "name":form_name, "struct":form_struct}}
-        data_user = {"_id":str(form_user_id), "email":user_email, "deptName":user_deptName}
+        data = {"_id": str(formdata_id), "create_time": create_time, "data": data, "process_xml": process_xml,
+                "audit_user_index": audit_user_index, "audit_success": audit_success,
+                "form": {"_id": str(form_id), "name": form_name, "struct": form_struct}}
+        data_user = {"_id": str(form_user_id), "email": user_email, "deptName": user_deptName}
         if user_name != "":
             data_user["name"] = user_name
         if user_nick_name != "":
