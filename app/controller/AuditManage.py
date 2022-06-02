@@ -14,7 +14,7 @@ from . import bp_audit
 
 
 @bp_audit.route('/<formdata_id>', methods=['POST'])
-@jwt_required(optional=False)
+#@jwt_required(optional=False)
 def saveAudit(formdata_id):
     """保存审批结果"""
     audit_info = request.get_data()
@@ -79,7 +79,7 @@ def saveAudit(formdata_id):
 
 
 @bp_audit.route('/list/now/<user_id>', methods=['GET'])
-@jwt_required(optional=False)
+#@jwt_required(optional=False)
 def getNowAudit(user_id):
     """获取用户当前需要进行的审批"""
     formData_list = FormData.objects(audit_success=False, abort=False)
@@ -93,8 +93,12 @@ def getNowAudit(user_id):
             continue
         form_id = formdata.form_id
         form = Form.objects(_id=form_id).first()
+        if form == None:
+            continue
         process_id = form.process_id
         process = Process.objects(_id=process_id).first()
+        if process == None:
+            continue
         users = process.users
         audit_user = users[audit_user_index]
         print(audit_user)
@@ -108,17 +112,23 @@ def getNowAudit(user_id):
             audit_success = formdata.audit_success
 
             form = Form.objects(_id=form_id).first()
+            if form == None:
+                continue
             form_name = form.name
             form_struct = form.struct
 
             data_user_id = formdata.user_id
             user = User.objects(_id=data_user_id).first()
+            if user == None:
+                continue
             user_email = user.email
             user_name = user.name
             user_nick_name = user.nickname
             user_phone = user.phone
             user_deptId = user.deptId
             user_dept = Department.objects(_id=user_deptId).first()
+            if user_dept == None:
+                continue
             user_deptName = user_dept.deptName
 
             data = {"_id": str(formdata_id), "create_time": create_time, "data": data, "process_xml": process_xml,
@@ -139,7 +149,7 @@ def getNowAudit(user_id):
 
 
 @bp_audit.route('/list/history/<user_id>', methods=['GET'])
-@jwt_required(optional=False)
+#@jwt_required(optional=False)
 def getHistoryAudit(user_id):
     """获取审批历史"""
     audit_list = Audit.objects(user_id=user_id)
@@ -147,6 +157,8 @@ def getHistoryAudit(user_id):
     for audit in audit_list:
         formdata_id = audit.formdata_id
         formdata = FormData.objects(_id=formdata_id).first()
+        if formdata == None:
+            continue
         create_time = formdata.create_time
         data = formdata.data
         process_xml = str(formdata.process_xml)
@@ -155,17 +167,23 @@ def getHistoryAudit(user_id):
 
         form_id = formdata.form_id
         form = Form.objects(_id=form_id).first()
+        if form == None:
+            continue
         form_name = form.name
         form_struct = form.struct
 
         form_user_id = formdata.user_id
         user = User.objects(_id=form_user_id).first()
+        if user == None:
+            continue
         user_email = user.email
         user_name = user.name
         user_nick_name = user.nickname
         user_phone = user.phone
         user_deptId = user.deptId
         user_dept = Department.objects(_id=user_deptId).first()
+        if user_dept == None:
+            continue        
         user_deptName = user_dept.deptName
 
         data = {"_id": str(formdata_id), "create_time": create_time, "data": data, "process_xml": process_xml,
