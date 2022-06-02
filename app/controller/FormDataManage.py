@@ -69,7 +69,7 @@ def getAllFormData(form_id):
         if user_id:  # 当user_id不为空
             user = User.objects(_id=user_id).first()
             email = user.email
-            enterprise_id = user.enterprise_id
+            enterprise_id = str(user.enterprise_id)
             if not enterprise_id:
                 enterprise_id = ''
             name = user.name
