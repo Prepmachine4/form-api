@@ -64,26 +64,23 @@ def getAllFormData(form_id):
     list_data = []  # 存放查找内容
 
     for form_data in form_data_list:
-        user_id = form_data.user_id  # type->ObjectId
-
+        user_id = str(form_data.user_id)  # type->ObjectId
         user_dict = {}
         if user_id:  # 当user_id不为空
-            user = User.objects(_id=str(user_id)).first()
-            user_id = str(user_id)
+            user = User.objects(_id=user_id).first()
             email = user.email
-            enterprise_id = str(user.enterprise_id)
+            enterprise_id = user.enterprise_id
+            if not enterprise_id:
+                enterprise_id = ''
             name = user.name
             nick_name = user.nickname
             phone = user.phone
-            deptName = Department.objects(_id=str(user.deptId)).first().deptName
-
+            if (user.deptId):
+                deptName = Department.objects(_id=str(user.deptId)).first().deptName
+            else:
+                deptName = ''
             user_dict = {"_id": user_id, "email": email, "enterprise_id": enterprise_id, "name": name,
                          "nick_name": nick_name, "phone": phone, "deptName": deptName}
-
-        # # 清除字典中的空项
-        # for k in list(user_dict.keys()):
-        #     if not user_dict[k]:
-        #         del user_dict[k]
 
         create_time = form_data.create_time
         data = form_data.data
@@ -122,11 +119,6 @@ def getAllFormData(form_id):
 
         # audit_list_data根据createTime从小到大排序
         sorted_audit_list_data = sorted(audit_list_data, key=lambda k: k.get('createTime'), reverse=False)
-        # for i in audit_list_data:
-        #     print(i['createTime'])
-        #
-        # for i in sorted_audit_list_data:
-        #     print(i['createTime'])
 
         list_data += [{"_id": str(form_data._id),
                        "create_time": create_time,
