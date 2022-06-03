@@ -19,7 +19,8 @@ def fillInForm(form_id):
     user_id = form_info.get("user_id")  # 为空表示匿名填写
 
     # 如果用户不是匿名填写且不可重复填写
-    if user_id and Form.objects(_id=str(form_id)).first().repeat_edit is False:
+    if user_id and Form.objects(_id=str(form_id)).first().repeat_edit is False \
+            and Form.objects(_id=str(form_id)).first().category == "问卷型":
         form_data_list = FormData.objects(form_id=str(form_id))
         for form_data in form_data_list:
             # 如果该用户填写过
