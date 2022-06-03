@@ -18,5 +18,5 @@ WTForms==3.0.1
 zipp==3.8.0
 Flask-JWT-Extended==4.4.0
 xmltodict==0.13.0
-xlrd==2.0.1
+xlrd==1.2.0
 
