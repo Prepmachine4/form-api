@@ -9,5 +9,4 @@ class Role(db.Document):
     roleKey = db.StringField()
     roleSort = db.IntField()
     menuIds = db.ListField()
-    dataScope = db.StringField()  # 该角色的菜单权限
     createTime = db.StringField()  # 该角色的创建时间
