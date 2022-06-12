@@ -1,3 +1,4 @@
+import time
 from flask import request, json
 from bson import ObjectId
 from app.model.Form import Form
@@ -17,6 +18,17 @@ def fillInForm(form_id):
     form_info = json.loads(form_info.decode("UTF-8"))
 
     user_id = form_info.get("user_id")  # 为空表示匿名填写
+
+    # 判断是否超时
+    present_time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
+    end_time = Form.objects(_id=str(form_id)).first().end_time
+
+    present_time = time.strptime(present_time, "%Y-%m-%d %H:%M:%S")
+    end_time = time.strptime(end_time, "%Y-%m-%dT%H:%M:%S.000Z")
+
+    if Form.objects(_id=str(form_id)).first().category == "问卷型" \
+            and present_time > end_time:
+        return json.jsonify({"message": "You have timed out!"}), 400
 
     # 如果用户不是匿名填写且不可重复填写
     if user_id and Form.objects(_id=str(form_id)).first().repeat_edit is False \
