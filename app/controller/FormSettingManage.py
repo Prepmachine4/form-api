@@ -51,7 +51,7 @@ def getFormSetting(form_id):
     form = Form.objects(_id=form_id).first()
     end_time = form.end_time
     tags = form.tags
-    process_id = form.process_id
+    process_id = form.process_id if form.process_id else ""
     user_range = form.user_range
     password = form.password
     repeat_edit = form.repeat_edit
