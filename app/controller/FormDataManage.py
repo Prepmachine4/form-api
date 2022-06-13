@@ -24,11 +24,11 @@ def fillInForm(form_id):
     end_time = Form.objects(_id=str(form_id)).first().end_time
 
     present_time = time.strptime(present_time, "%Y-%m-%d %H:%M:%S")
-    end_time = time.strptime(end_time, "%Y-%m-%dT%H:%M:%S.000Z")
+    end_time = time.strptime(end_time, "%Y-%m-%d %H:%M:%S")
 
     if Form.objects(_id=str(form_id)).first().category == "问卷型" \
             and present_time > end_time:
-        return json.jsonify({"message": "You have timed out!"}), 400
+        return json.jsonify({"message": "表单已经截止，您无法进行填写!"}), 400
 
     # 如果用户不是匿名填写且不可重复填写
     if user_id and Form.objects(_id=str(form_id)).first().repeat_edit is False \
@@ -37,7 +37,7 @@ def fillInForm(form_id):
         for form_data in form_data_list:
             # 如果该用户填写过
             if str(form_data.user_id) == str(user_id):
-                return json.jsonify({"message": "You have already filled in!"}), 400
+                return json.jsonify({"message": "您已经填写过该表单了!"}), 400
 
     if not user_id:  # user_id为空，数据库设置为None
         user_id = None
