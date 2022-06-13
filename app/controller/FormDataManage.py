@@ -19,6 +19,17 @@ def fillInForm(form_id):
 
     user_id = form_info.get("user_id")  # 为空表示匿名填写
 
+    # 业务型判断填写者是否为企业用户
+    if Form.objects(_id=str(form_id)).first().category == "业务型":
+        # 当为匿名用户
+        if not user_id:
+            return json.jsonify({"message": "您不是企业用户，无法填写!"}), 400
+        form_user_id = Form.objects(_id=str(form_id)).first().user_id
+        form_enterprise_id = User.objects(_id=str(form_user_id)).first().enterprise_id
+        # 当填写者非企业用户
+        if User.objects(_id=str(user_id)).first().enterprise_id != form_enterprise_id:
+            return json.jsonify({"message": "您不是企业用户，无法填写!"}), 400
+
     # 判断是否超时
     present_time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
     end_time = Form.objects(_id=str(form_id)).first().end_time
