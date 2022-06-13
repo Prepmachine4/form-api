@@ -223,12 +223,12 @@ def setUserDepart(enterprise_id):
         phone = str(data.cell(i, 4).value)
         user1 = User.objects(email=email).first()
         if user1:
-            return jsonify({"用户已存在"}), 400
+            return jsonify({"message": "user exist!"}), 400
         user = User(_id=ObjectId(),
                     email=email,
                     password=password,
-                    name=name,
-                    nickname=nickname,
+                    name=str(name),
+                    nickname=str(nickname),
                     phone=phone,
                     role="企业",
                     deptId=Did,
