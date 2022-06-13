@@ -23,9 +23,6 @@ def fillInForm(form_id):
     present_time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
     end_time = Form.objects(_id=str(form_id)).first().end_time
 
-    present_time = time.strptime(present_time, "%Y-%m-%d %H:%M:%S")
-    end_time = time.strptime(end_time, "%Y-%m-%d %H:%M:%S")
-
     if Form.objects(_id=str(form_id)).first().category == "问卷型" \
             and present_time > end_time:
         return json.jsonify({"message": "表单已经截止，您无法进行填写!"}), 400
