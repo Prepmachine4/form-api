@@ -17,7 +17,7 @@ def getAllForms():
 
     for form_data in form_data_list:
         enable_search = form_data.enable_search
-        if enable_search == False:  #该表单不允许被全局搜索到
+        if enable_search == False:  # 该表单不允许被全局搜索到
             continue
 
         _id = str(form_data._id)
@@ -97,7 +97,7 @@ def getForm(form_id):
 @jwt_required(optional=False)
 def getUserForms(user_id):
     """获取用户所有表单的信息"""
-    #print(get_jwt_identity())  # 获取token里的用户email
+    # print(get_jwt_identity())  # 获取token里的用户email
 
     form_data_list = Form.objects(user_id=user_id)
     list_data = []
@@ -123,7 +123,8 @@ def getUserForms(user_id):
             if len(tags) != 0:
                 tmp["setting"]["tags"] = tags
             if category == "业务型":
-                tmp["setting"]["process_id"] = str(form_data.process_id)
+                if form_data.process_id:
+                    tmp["setting"]["process_id"] = str(form_data.process_id)
             else:
                 tmp["setting"]["user_range"] = form_data.user_range
                 tmp["setting"]["password"] = form_data.password
@@ -131,6 +132,8 @@ def getUserForms(user_id):
                 tmp["setting"]["enable_search"] = form_data.enable_search
                 tmp["setting"]["look_result"] = form_data.look_result
                 tmp["setting"]["look_analysis"] = form_data.look_analysis
+
+            if len(tmp["setting"]) == 0: del tmp["setting"]
 
         list_data += [tmp]
 
