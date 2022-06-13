@@ -138,6 +138,10 @@ def enterpriseAddUser(enterprise_id):
     postIds = user_info.get("postIds")
     roleIds = user_info.get("roleIds")
 
+    user = User.objects(email=email).first()
+    if user:
+        return jsonify({"message": "用户已存在"}), 400
+
     user = User(_id=ObjectId(),
                 email=email,
                 password=password,
@@ -217,6 +221,9 @@ def setUserDepart(enterprise_id):
         name = data.cell(i, 2).value
         nickname = data.cell(i, 3).value
         phone = str(data.cell(i, 4).value)
+        user1 = User.objects(email=email).first()
+        if user1:
+            return jsonify({"用户已存在"}), 400
         user = User(_id=ObjectId(),
                     email=email,
                     password=password,
