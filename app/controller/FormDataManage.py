@@ -258,6 +258,7 @@ def updateFormData(formdata_id):
     abort = form_data_info.get("abort")
 
     form_data.update(data=data)
-    form_data.update(abort=abort)
+    if abort != None:
+        form_data.update(abort=abort)
 
     return json.jsonify({})

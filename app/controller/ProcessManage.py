@@ -106,5 +106,5 @@ def deleteProc(process_id):
 def abortProc(formdata_id):
     """终止流程"""
     form_data = FormData.objects(_id=formdata_id).first()
-    form_data.update(abort=False)
+    form_data.update(abort=True)
     return json.jsonify({})
