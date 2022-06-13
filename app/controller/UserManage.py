@@ -168,6 +168,8 @@ def enterpriseLinkUser(enterprise_id):
 
     user = User.objects(email=email).first()
     if user:
+        if user.role=="企业":
+            return jsonify({"message": "该用户为企业用户，不可重复关联"}), 400
         user.update(role="企业")
         user.update(nickname=nickname)  # 若为空？
         user.update(deptId=deptId, postIds=postIds, roleIds=roleIds, enterprise_id=enterprise_id)
