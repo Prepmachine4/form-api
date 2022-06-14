@@ -113,6 +113,7 @@ def getUserList(enterprise_id):
                 "orderNum": department.orderNum,
                 "leader_id": str(department.leader_id),
                 "phone": department.phone,
+                "roleIds": department.roleIds,
                 "createTime": department.createTime}
 
         list_data += [{"_id": str(_id), "email": email, "password": password, "name": name,
