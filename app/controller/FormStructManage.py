@@ -203,7 +203,6 @@ def changeFormStruct():
 
 
 @bp_form.route('/struct/<form_id>', methods=['GET'])
-@jwt_required(optional=False)
 def getFormStruct(form_id):
     """获取某个表单的结构json"""
     form_data = Form.objects(_id=form_id).first()
