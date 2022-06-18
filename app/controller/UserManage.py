@@ -9,7 +9,7 @@ from . import bp_user, bp_sysu
 
 
 @bp_user.route('/profile', methods=['PUT'])
-@jwt_required(optional=False)
+#@jwt_required(optional=False)
 def profile():
     """修改用户信息"""
     user_info = request.get_data()
@@ -50,7 +50,7 @@ def profile():
 
 
 @bp_sysu.route('/<user_id>', methods=['DELETE'])
-@jwt_required(optional=False)
+#@jwt_required(optional=False)
 def profile(user_id):
     """删除用户"""
     user = User.objects(_id=user_id).first()
@@ -62,7 +62,7 @@ def profile(user_id):
 
 
 @bp_sysu.route('/<user_id>', methods=['GET'])
-@jwt_required(optional=False)
+#@jwt_required(optional=False)
 def getUserInfo(user_id):
     """查询用户详细信息"""
     user = User.objects(_id=user_id).first()
@@ -89,7 +89,7 @@ def getUserInfo(user_id):
 
 
 @bp_sysu.route('/list/<enterprise_id>', methods=['GET'])
-@jwt_required(optional=False)
+#@jwt_required(optional=False)
 def getUserList(enterprise_id):
     """获取用户列表"""
     userlist = User.objects(enterprise_id=enterprise_id)
@@ -124,7 +124,7 @@ def getUserList(enterprise_id):
 
 
 @bp_sysu.route('/<enterprise_id>', methods=['POST'])
-@jwt_required(optional=False)
+#@jwt_required(optional=False)
 def enterpriseAddUser(enterprise_id):
     """企业添加用户"""
     user_info = request.get_data()
@@ -159,7 +159,7 @@ def enterpriseAddUser(enterprise_id):
 
 
 @bp_sysu.route('/<enterprise_id>', methods=['PUT'])
-@jwt_required(optional=False)
+#@jwt_required(optional=False)
 def enterpriseLinkUser(enterprise_id):
     """企业关联用户"""
     user_info = request.get_data()
@@ -184,7 +184,7 @@ def enterpriseLinkUser(enterprise_id):
 
 
 @bp_sysu.route('/menu/<user_id>', methods=['GET'])
-@jwt_required(optional=False)
+#@jwt_required(optional=False)
 def getUserMenuIds(user_id):
     """获取用户所有角色的menuIds"""
     user = User.objects(_id=user_id).first()
@@ -207,7 +207,7 @@ def getUserMenuIds(user_id):
 
 
 @bp_sysu.route('/batch/<enterprise_id>', methods=['POST'])
-@jwt_required(optional=False)
+#@jwt_required(optional=False)
 def setUserDepart(enterprise_id):
     """批量导入，设置企业全体用户的部门id为根部门id"""
     excel = request.files.get('file')

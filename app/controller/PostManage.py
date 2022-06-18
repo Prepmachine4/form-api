@@ -7,7 +7,7 @@ import time
 
 
 @bp_post.route('/list/<enterprise_id>', methods=['GET'])
-@jwt_required(optional=False)
+#@jwt_required(optional=False)
 def getPostList(enterprise_id):
     # """检查用户权限"""
     # if enterprise_id != get_jwt_identity():
@@ -32,7 +32,7 @@ def getPostList(enterprise_id):
     return json.jsonify(list_data)
 
 @bp_post.route('/<enterprise_id>', methods=['POST'])
-@jwt_required(optional=False)
+#@jwt_required(optional=False)
 def savePost(enterprise_id):
     # """检查用户权限"""
     # if enterprise_id != get_jwt_identity():
@@ -62,7 +62,7 @@ def savePost(enterprise_id):
     return json.jsonify({"_id": str(post._id)})
 
 @bp_post.route('', methods=['PUT'])
-@jwt_required(optional=False)
+#@jwt_required(optional=False)
 def updatePost():
 
     """修改岗位信息"""
@@ -90,7 +90,7 @@ def updatePost():
     return json.jsonify({"_id": str(post._id)})
 
 @bp_post.route('/<post_id>', methods=['DELETE'])
-@jwt_required(optional=False)
+#@jwt_required(optional=False)
 def deletePost(post_id):
 
     """检查用户权限"""
@@ -105,7 +105,7 @@ def deletePost(post_id):
     return json.jsonify({})    
 
 @bp_post.route('/<post_id>', methods=['GET'])
-@jwt_required(optional=False)
+#@jwt_required(optional=False)
 def getPost(post_id):
     """检查用户权限"""
     post = Post.objects(_id=post_id).first()

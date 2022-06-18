@@ -8,7 +8,7 @@ from . import bp_dept
 
 
 @bp_dept.route('/list/<enterprise_id>', methods=['GET'])
-@jwt_required(optional=False)
+#@jwt_required(optional=False)
 def getAllDepartments(enterprise_id):
     """获取所有部门"""
     department_list = Department.objects(enterprise_id=enterprise_id)
@@ -41,7 +41,7 @@ def getAllDepartments(enterprise_id):
 
 
 @bp_dept.route('/<enterprise_id>', methods=['POST'])
-@jwt_required(optional=False)
+#@jwt_required(optional=False)
 def addDepartment(enterprise_id):
     """新增部门"""
     _id = ObjectId()
@@ -70,7 +70,7 @@ def addDepartment(enterprise_id):
 
 
 @bp_dept.route('', methods=['PUT'])
-@jwt_required(optional=False)
+#@jwt_required(optional=False)
 def updateDepartment():
     """修改部门"""
     dept_info = json.loads(request.get_data().decode("UTF-8"))
@@ -96,7 +96,7 @@ def updateDepartment():
 
 
 @bp_dept.route('/<dept_id>', methods=['DELETE'])
-@jwt_required(optional=False)
+#@jwt_required(optional=False)
 def deleteDepartment(dept_id):
     """删除部门"""
 
@@ -112,7 +112,7 @@ def deleteDepartment(dept_id):
 
 
 @bp_dept.route('/<dept_id>', methods=['GET'])
-@jwt_required(optional=False)
+#@jwt_required(optional=False)
 def getDepartmentInfomation(dept_id):
     """获取部门详细信息"""
     department = Department.objects(_id=dept_id).first()
@@ -136,7 +136,7 @@ def getDepartmentInfomation(dept_id):
 
 
 @bp_dept.route('/treeselect/<enterprise_id>', methods=['GET'])
-@jwt_required(optional=False)
+#@jwt_required(optional=False)
 def getDepartmentTree(enterprise_id):
     """获取部门下拉树结构"""
     department_list = Department.objects(enterprise_id=enterprise_id)

@@ -8,7 +8,7 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 from . import bp_proc
 
 @bp_proc.route('/<enterprise_id>', methods=['POST'])
-@jwt_required(optional=False)
+#@jwt_required(optional=False)
 def saveProcess(enterprise_id):
     """保存流程"""
     proc_info = request.get_data()
@@ -53,7 +53,7 @@ def saveProcess(enterprise_id):
 
 
 @bp_proc.route('/list/<enterprise_id>', methods=['GET'])
-@jwt_required(optional=False)
+#@jwt_required(optional=False)
 def getAllProc(enterprise_id):
     """获取流程列表"""
     proc_list = Process.objects(enterprise_id=enterprise_id)
@@ -75,7 +75,7 @@ def getAllProc(enterprise_id):
 
 
 @bp_proc.route('/<process_id>', methods=['GET'])
-@jwt_required(optional=False)
+#@jwt_required(optional=False)
 def getProcInfo(process_id):
     """获取流程详细"""
     proc = Process.objects(_id=process_id).first()
@@ -94,7 +94,7 @@ def getProcInfo(process_id):
 
 
 @bp_proc.route('/<process_id>', methods=['DELETE'])
-@jwt_required(optional=False)
+#@jwt_required(optional=False)
 def deleteProc(process_id):
     """删除流程"""
     Process.objects(_id=process_id).delete()
@@ -102,7 +102,7 @@ def deleteProc(process_id):
 
 
 @bp_proc.route('/<formdata_id>', methods=['PUT'])
-@jwt_required(optional=False)
+#@jwt_required(optional=False)
 def abortProc(formdata_id):
     """终止流程"""
     form_data = FormData.objects(_id=formdata_id).first()

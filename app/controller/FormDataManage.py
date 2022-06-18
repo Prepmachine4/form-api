@@ -78,7 +78,7 @@ def fillInForm(form_id):
 
 
 @bp_data.route('/forms/<form_id>', methods=['GET'])
-@jwt_required(optional=False)
+#@jwt_required(optional=False)
 def getAllFormData(form_id):
     """获取表单所有数据"""
     form_data_list = FormData.objects(form_id=form_id)  # 查询 form_data 集合所有匹配 form_id 的项
@@ -158,7 +158,7 @@ def getAllFormData(form_id):
 
 
 @bp_data.route('/<user_id>', methods=['GET'])
-@jwt_required(optional=False)
+#@jwt_required(optional=False)
 def getUserForms(user_id):
     """获取某个用户填写的表单"""
     form_data_list = FormData.objects(user_id=user_id)  # 查询 form_data 集合所有匹配 user_id 的项
@@ -259,7 +259,7 @@ def getUserForms(user_id):
 
 
 @bp_data.route('/<formdata_id>', methods=['PUT'])
-@jwt_required(optional=False)
+#@jwt_required(optional=False)
 def updateFormData(formdata_id):
     """修改表单数据"""
     form_data = FormData.objects(_id=str(formdata_id)).first()

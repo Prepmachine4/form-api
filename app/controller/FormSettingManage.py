@@ -45,7 +45,7 @@ def saveFormSetting(form_id):
 
 
 @bp_form.route('/setting/<form_id>', methods=['GET'])
-##@jwt_required(optional=False)
+#@jwt_required(optional=False)
 def getFormSetting(form_id):
     """获取表单设置"""
     form = Form.objects(_id=form_id).first()
