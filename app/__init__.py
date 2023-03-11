@@ -23,11 +23,11 @@ def create_app():
     # 数据库配置
     app.config['MONGODB_SETTINGS'] = {
         'db': 'form_system',
-        'host': '82.157.141.92',
+        'host': 'localhost',
         'port': 27017,
-        'username': 'admin',
-        'password': 'ruangongkesheOfmongo',
-        'authentication_source': 'admin'
+        'username': 'form',
+        'password': 'ldnalKDHlfa@E$das',
+        'authentication_source': 'form_system'
     }
     db.init_app(app)
 
