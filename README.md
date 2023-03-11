@@ -1,8 +1,20 @@
-<!-- title: 在线表单处理系统部署说明 -->
 # 在线表单处理系统
+随着在线办公领域的快速发展，很多单位和企业都需要创建、发布、收集、 分析各种业务表单。为了更好地支持表单管理和处理功能，我们开发了一套具有一定通用性和可扩展性的表单处理系统，能够允许用户定义、发布、填写、汇总、 分析、审批各种类型的表单
 ## api文档
 https://www.apifox.cn/apidoc/shared-2bdcb935-e1c5-425a-94f1-fd7bca957868/doc-720236
 
+## 前端项目
+https://github.com/Prepmachine4/form-vue
+
+## 设计与亮点
+![image](https://user-images.githubusercontent.com/63285063/224487892-c5500ab3-3c7b-4c19-a5c3-3c229e76e962.png)
+
+![image](https://user-images.githubusercontent.com/63285063/224487985-99ecdb8a-0910-449b-ade5-d2f33ab920c7.png)
+
+![image](https://user-images.githubusercontent.com/63285063/224487991-aa51b591-7182-4712-997b-23fb430a9ae0.png)
+
+![image](https://user-images.githubusercontent.com/63285063/224488001-3067c28f-717c-4521-97c0-8b371a485e6e.png)
+![image](https://user-images.githubusercontent.com/63285063/224488011-1fbd1537-3b8f-4449-b084-56b5461446f6.png)
 
 
 # 部署说明
